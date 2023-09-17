@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "go run ./src",
+    "dev": "nodemon"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

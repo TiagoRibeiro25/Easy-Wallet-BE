@@ -23,3 +23,7 @@ go.work
 # IDE files
 .idea/
 .vscode/
+
+# node.js and npm
+node_modules/
+package-lock.json
