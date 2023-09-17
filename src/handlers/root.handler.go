@@ -6,7 +6,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// define the json response for the root route
 type Response struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`

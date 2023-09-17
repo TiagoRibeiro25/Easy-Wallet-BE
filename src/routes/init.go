@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// takes the echo server as a parameter to register all routes
+// Takes the echo server as a parameter to register all routes
 func Init(server *echo.Echo) {
 	color.Cyan("Registering routes...")
 
