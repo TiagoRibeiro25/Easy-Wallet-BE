@@ -9,15 +9,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// The function creates an HTTP server using the Echo framework
 func Server() *echo.Echo {
 	fmt.Println("Starting the http server...")
 
 	server := echo.New()
 
 	server.GET("/api/v1", func(c echo.Context) error {
-		return c.JSONPretty(http.StatusOK, map[string]string{
+		return c.JSON(http.StatusOK, map[string]string{
 			"message": "Hello World!",
-		}, "  ")
+		})
 	})
 
 	return server
