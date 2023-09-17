@@ -3,24 +3,25 @@ package handlers
 import (
 	"net/http"
 
+	"easy-wallet-be/src/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
-type Response struct {
-	Success bool   `json:"success"`
-	Message string `json:"message"`
-}
-
 func Home(c echo.Context) error {
-	return c.JSON(http.StatusOK, Response{
-		Success: true,
-		Message: "Welcome to the Easy Wallet API",
-	})
+	return utils.HandleResponse(
+		c,
+		http.StatusOK,
+		"Welcome to the Easy Wallet API",
+		nil,
+	)
 }
 
 func NotFound(c echo.Context) error {
-	return c.JSON(http.StatusNotFound, Response{
-		Success: false,
-		Message: "Route not found",
-	})
+	return utils.HandleResponse(
+		c,
+		http.StatusNotFound,
+		"Route not found",
+		nil,
+	)
 }

@@ -11,8 +11,16 @@ import (
 func Init(server *echo.Echo) {
 	color.Cyan("Registering routes...")
 
-	server.GET("/api", handlers.Home)
+	// Not found route
 	server.GET("*", handlers.NotFound)
+
+	api := server.Group("/api")
+
+	// Register Home route
+	api.GET("", handlers.Home)
+
+	// Register User routes
+	UserRoutes(api)
 
 	color.Green("Routes registered successfully")
 }
