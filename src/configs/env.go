@@ -42,7 +42,7 @@ func ValidateEnvs() {
 	color.Cyan("Validating environment variables...")
 
 	// Open the JSON file containing the list of environment variables
-	file, err := os.Open("/src/data/envs.json")
+	file, err := os.Open("src/data/envs.json")
 	utils.HandleError(err, "", true)
 
 	defer file.Close()
