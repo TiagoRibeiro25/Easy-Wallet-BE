@@ -5,13 +5,16 @@ import (
 	"fmt"
 	"os"
 
+	"easy-wallet-be/src/utils"
+
+	"github.com/fatih/color"
 	"github.com/joho/godotenv"
 )
 
 // LoadEnv loads environment variables from a .env file using the godotenv package.
 // If no path is provided, it defaults to ".env" in the current working directory.
 func LoadEnv(paths ...string) {
-	fmt.Println("Loading environment variables...")
+	color.Cyan("Loading environment variables...")
 
 	var path string
 
@@ -23,12 +26,9 @@ func LoadEnv(paths ...string) {
 	}
 
 	err := godotenv.Load(path)
+	utils.HandleError(err, "Error loading .env file", true)
 
-	if err != nil {
-		panic("Error loading .env file")
-	}
-
-	fmt.Println("Environment variables loaded successfully")
+	color.Green("Environment variables loaded successfully")
 }
 
 // The function GetEnv retrieves the value of an environment variable given its key.
@@ -39,13 +39,11 @@ func GetEnv(key string) string {
 // The function `ValidateEnvs` reads a JSON file containing a list of environment variable names,
 // checks if each variable is set, and panics if any variable is not set.
 func ValidateEnvs() {
-	fmt.Println("Validating environment variables...")
+	color.Cyan("Validating environment variables...")
 
 	// Open the JSON file containing the list of environment variables
-	file, err := os.Open("src/data/envs.json")
-	if err != nil {
-		panic(err)
-	}
+	file, err := os.Open("/src/data/envs.json")
+	utils.HandleError(err, "", true)
 
 	defer file.Close()
 
@@ -53,9 +51,7 @@ func ValidateEnvs() {
 
 	// Decode the JSON file into a slice of strings
 	decoder := json.NewDecoder(file)
-	if err := decoder.Decode(&envs); err != nil {
-		panic(err)
-	}
+	utils.HandleError(decoder.Decode(&envs), "", true)
 
 	// Check if each environment variable is set
 	for _, env := range envs {
@@ -64,5 +60,5 @@ func ValidateEnvs() {
 		}
 	}
 
-	fmt.Println("All required environment variables are set")
+	color.Green("All required environment variables are set")
 }
