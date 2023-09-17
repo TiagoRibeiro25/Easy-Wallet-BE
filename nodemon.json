@@ -1,6 +1,6 @@
 {
 	"watch": ["src"],
 	"ext": "*",
-	"exec": "npm start",
+	"exec": "npx kill-port 5000; npm start",
 	"ignore": ["node_modules", ".git*"]
 }
