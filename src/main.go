@@ -7,6 +7,8 @@ import (
 	"easy-wallet-be/src/utils"
 )
 
+// The main function initializes and starts a server, loading environment variables and validating
+// required variables before starting.
 func main() {
 	// Clear terminal
 	fmt.Print("\033[H\033[2J")
