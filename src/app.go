@@ -44,9 +44,13 @@ func Server() *echo.Echo {
 	))
 
 	// Set Body Limit
-	// server.Use(middleware.BodyLimit("2M"))
 	server.Use(middleware.BodyLimitWithConfig(
 		configs.GetBodyLimitConfig(),
+	))
+
+	// Set Gzip
+	server.Use(middleware.GzipWithConfig(
+		configs.GetGzipConfig(),
 	))
 
 	color.Green("Middlewares are set up")
