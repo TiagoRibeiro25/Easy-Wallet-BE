@@ -30,6 +30,11 @@ func Server() *echo.Echo {
 		configs.GetLoggerConfig(),
 	))
 
+	// Set Security
+	server.Use(middleware.SecureWithConfig(
+		configs.GetSecurityConfig(),
+	))
+
 	// Register all routes
 	routes.Init(server)
 
