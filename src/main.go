@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"easy-wallet-be/src/configs"
+	"easy-wallet-be/src/utils"
 )
 
 func main() {
@@ -19,7 +20,7 @@ func main() {
 	// Instantiate the server
 	server := Server()
 
-	server.Logger.Fatal(server.Start(fmt.Sprintf(":%s", configs.GetEnv("PORT"))))
+	server.Logger.Fatal(server.Start(fmt.Sprintf(":%s", utils.GetEnv("PORT"))))
 
 	defer server.Close()
 }

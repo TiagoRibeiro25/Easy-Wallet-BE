@@ -31,11 +31,6 @@ func LoadEnv(paths ...string) {
 	color.Green("Environment variables loaded successfully")
 }
 
-// The function GetEnv retrieves the value of an environment variable given its key.
-func GetEnv(key string) string {
-	return os.Getenv(key)
-}
-
 // The function `ValidateEnvs` reads a JSON file containing a list of environment variable names,
 // checks if each variable is set, and panics if any variable is not set.
 func ValidateEnvs() {
@@ -55,7 +50,7 @@ func ValidateEnvs() {
 
 	// Check if each environment variable is set
 	for _, env := range envs {
-		if GetEnv(env) == "" {
+		if utils.GetEnv(env) == "" {
 			panic(fmt.Sprintf("Environment variable %s is not set", env))
 		}
 	}
