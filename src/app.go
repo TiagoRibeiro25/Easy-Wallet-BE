@@ -35,6 +35,11 @@ func Server() *echo.Echo {
 		configs.GetSecurityConfig(),
 	))
 
+	// Set Recover
+	server.Use(middleware.RecoverWithConfig(
+		configs.GetRecoverConfig(),
+	))
+
 	// Register all routes
 	routes.Init(server)
 
