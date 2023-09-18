@@ -15,6 +15,9 @@ func Server() *echo.Echo {
 
 	server := echo.New()
 
+	// Set Middlewares
+	color.Cyan("Setting up the middlewares...")
+
 	// Set CORS
 	server.Use(middleware.CORSWithConfig(
 		configs.GetCorsConfig(),
@@ -39,6 +42,14 @@ func Server() *echo.Echo {
 	server.Use(middleware.RecoverWithConfig(
 		configs.GetRecoverConfig(),
 	))
+
+	// Set Body Limit
+	// server.Use(middleware.BodyLimit("2M"))
+	server.Use(middleware.BodyLimitWithConfig(
+		configs.GetBodyLimitConfig(),
+	))
+
+	color.Green("Middlewares are set up")
 
 	// Register all routes
 	routes.Init(server)
