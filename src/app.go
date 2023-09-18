@@ -25,6 +25,11 @@ func Server() *echo.Echo {
 		configs.GetRateLimiterConfig(),
 	))
 
+	// Set Logger
+	server.Use(middleware.RequestLoggerWithConfig(
+		configs.GetLoggerConfig(),
+	))
+
 	// Register all routes
 	routes.Init(server)
 
