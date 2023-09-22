@@ -25,6 +25,7 @@ func HandleResponse(context echo.Context, statusCode int, message string, data i
 		Data:    data,
 	}
 
+	// Print the response message depending on the status code of the response.
 	if statusCode >= 500 {
 		color.New(color.FgHiYellow).Print("Server Error: ")
 		color.New(color.FgHiRed).Println(message)

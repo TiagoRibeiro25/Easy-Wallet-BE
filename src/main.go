@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"easy-wallet-be/src/configs"
+	"easy-wallet-be/src/models"
 	"easy-wallet-be/src/utils"
 )
 
@@ -20,6 +21,10 @@ func main() {
 
 	// Validate required envs
 	configs.ValidateEnvs()
+
+	// Connect to the database
+	_, err := models.SetupDatabase()
+	utils.HandleError(err, "Failed to connect to database", true)
 
 	// Instantiate the server
 	server := Server()
