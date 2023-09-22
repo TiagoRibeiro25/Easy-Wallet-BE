@@ -23,13 +23,16 @@ func main() {
 	configs.ValidateEnvs()
 
 	// Connect to the database
-	_, err := models.SetupDatabase()
+	db, err := models.SetupDatabase()
 	utils.HandleError(err, "Failed to connect to database", true)
 
 	// Instantiate the server
 	server := Server()
-
 	server.Logger.Fatal(server.Start(fmt.Sprintf(":%s", utils.GetEnv("PORT"))))
 
-	defer server.Close()
+	// Defer closing the database connection and server
+	defer func() {
+		db.Close()
+		server.Close()
+	}()
 }
