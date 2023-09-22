@@ -14,7 +14,9 @@ func main() {
 	fmt.Print("\033[H\033[2J")
 
 	// Load envs from .env file
-	configs.LoadEnv()
+	if environment := utils.GetEnv("GO_ENV"); environment != "production" && environment != "prod" {
+		configs.LoadEnv()
+	}
 
 	// Validate required envs
 	configs.ValidateEnvs()
