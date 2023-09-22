@@ -11,9 +11,19 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// LoadEnv loads environment variables from a .env file using the godotenv package.
+func init() {
+	// Load envs from .env file
+	if environment := utils.GetEnv("GO_ENV"); environment != "production" && environment != "prod" {
+		loadEnvs()
+	}
+
+	// Validate required envs
+	validateEnvs()
+}
+
+// `loadEnvs` loads environment variables from a .env file using the godotenv package.
 // If no path is provided, it defaults to ".env" in the current working directory.
-func LoadEnv(paths ...string) {
+func loadEnvs(paths ...string) {
 	color.Cyan("Loading environment variables...")
 
 	var path string
@@ -31,9 +41,9 @@ func LoadEnv(paths ...string) {
 	color.Green("Environment variables loaded successfully")
 }
 
-// The function `ValidateEnvs` reads a JSON file containing a list of environment variable names,
+// The function `validateEnvs` reads a JSON file containing a list of environment variable names,
 // checks if each variable is set, and panics if any variable is not set.
-func ValidateEnvs() {
+func validateEnvs() {
 	color.Cyan("Validating environment variables...")
 
 	// Open the JSON file containing the list of environment variables

@@ -3,7 +3,6 @@ package configs
 import "easy-wallet-be/src/utils"
 
 type DatabaseConfig struct {
-	Dialect   string
 	Host      string
 	Port      string
 	Username  string
@@ -14,8 +13,8 @@ type DatabaseConfig struct {
 
 // The function GetDatabaseConfig retrieves the database configuration from environment variables.
 func GetDatabaseConfig() DatabaseConfig {
+
 	return DatabaseConfig{
-		Dialect:   utils.GetEnv("DB_DIALECT"),
 		Host:      utils.GetEnv("DB_HOST"),
 		Port:      utils.GetEnv("DB_PORT"),
 		Username:  utils.GetEnv("DB_USERNAME"),
