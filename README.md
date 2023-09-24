@@ -4,29 +4,6 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-<style>
- .imgs {
- display: flex;
- flex-direction: row;
- justify-content: space-between;
- align-items: center;
- margin: 0 auto;
- width: 100%;
- max-width: 765px;
- gap: 10px;
- margin-bottom: 60px;
- margin-top: 60px;
- }
-
- /*media query*/
- @media (max-width: 765px) {
-  .imgs {
-   flex-direction: column;
-  gap: 30px;
-  }
-   }
-</style>
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -49,13 +26,13 @@
     ·
     <a href="https://github.com/TiagoRibeiro25/Easy-Wallet-BE/issues">Request Feature</a>
   </p>
+   <img src="images/devices.png" alt="Logo" >
+ <br />
 </div>
 
-<div class="imgs">
- <img src="images/phone.png" alt="Logo" height="200">
+ <!-- <img src="images/phone.png" alt="Logo" height="200">
  <img src="images/tablet.png" alt="Logo" height="200">
- <img src="images/laptop.png" alt="Logo" height="200">
-</div>
+ <img src="images/laptop.png" alt="Logo" height="200"> -->
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
