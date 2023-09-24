@@ -16,11 +16,11 @@ func Init(server *echo.Echo) {
 
 	api := server.Group("/api")
 
-	// Register Home route
+	// Home route
 	api.GET("", handlers.Home)
 
-	// Register User routes
 	UserRoutes(api)
+	AuthRoutes(api)
 
 	color.Green("Routes registered successfully")
 }
