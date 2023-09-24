@@ -14,8 +14,7 @@ func main() {
 	fmt.Print("\033[H\033[2J")
 
 	// Connect to the database
-	db, err := models.SetupDatabase()
-	utils.HandleError(err, "Failed to connect to database", true)
+	db := models.DB()
 
 	// Instantiate the server
 	server := Server()
