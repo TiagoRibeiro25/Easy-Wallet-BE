@@ -14,6 +14,7 @@ type User struct {
 	Email    string `json:"email"`
 }
 
+// GetUser returns a user with dummy data.
 func GetUser(c echo.Context) error {
 	user := &User{
 		ID:       1,

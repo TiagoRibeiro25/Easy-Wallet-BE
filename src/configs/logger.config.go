@@ -8,6 +8,8 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+// getStatusColor returns the color attribute corresponding to the given HTTP status code.
+// The returned color is used to colorize the status code in the log output.
 func getStatusColor(statusCode int) color.Attribute {
 	switch {
 	case statusCode >= 0 && statusCode < 100:
@@ -27,6 +29,8 @@ func getStatusColor(statusCode int) color.Attribute {
 	}
 }
 
+// getMethodColor returns the color attribute corresponding to the given HTTP method.
+// The returned color is used to colorize the HTTP method in the log output.
 func getMethodColor(method string) color.Attribute {
 	switch method {
 	case "GET":
@@ -48,6 +52,7 @@ func getMethodColor(method string) color.Attribute {
 	}
 }
 
+// GetLoggerConfig returns the middleware.RequestLoggerConfig for logging HTTP requests.
 func GetLoggerConfig() middleware.RequestLoggerConfig {
 	return middleware.RequestLoggerConfig{
 		LogStatus:  true,

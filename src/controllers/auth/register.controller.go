@@ -11,6 +11,11 @@ import (
 
 // DB_ERROR is a constant that holds the error message for database errors (used multiple times)
 const DB_ERROR = "An error occured with our database"
+
+// Register creates a new user and password in the database, and returns a response with the user's information.
+// It receives a context and a BodyData struct containing the user's email, display name and password.
+// It generates a verification token and a reset password token, hashes the password, and creates the user and password in a single transaction.
+// It returns an error if there was an error while generating tokens or hashing the password, or if there was an error while creating the user or password in the database.
 func Register(c echo.Context, bodyData schemas.BodyData) error {
 	// Generate tokens
 	verifyUserToken, verifyUserTokenErr := utils.GenerateToken()

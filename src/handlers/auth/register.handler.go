@@ -10,6 +10,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Register is a handler function that receives a request context and registers a new user account.
+// It checks if there's already an user with the same email and returns an error if so.
+// Otherwise, it creates the account and returns nil.
 func Register(c echo.Context) error {
 	var bodyData schemas.BodyData
 	c.Bind(&bodyData)

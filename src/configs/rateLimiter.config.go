@@ -10,6 +10,11 @@ import (
 	"easy-wallet-be/src/utils"
 )
 
+// GetRateLimiterConfig returns a middleware.RateLimiterConfig struct that can be used to limit the rate of incoming requests.
+// The rate limiter is configured to allow 3 requests per minute, with a burst of 3 requests.
+// The identifier extractor function extracts the client's IP address as the identifier.
+// The error handler function returns a 403 Forbidden response when the rate limit is exceeded.
+// The deny handler function returns a 429 Too Many Requests response when the rate limit is exceeded.
 func GetRateLimiterConfig() middleware.RateLimiterConfig {
 	return middleware.RateLimiterConfig{
 		Skipper: middleware.DefaultSkipper,
