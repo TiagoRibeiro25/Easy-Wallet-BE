@@ -30,3 +30,6 @@ package-lock.json
 
 # docker volumes
 db/
+
+# database migrations
+migrations/
