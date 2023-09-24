@@ -13,5 +13,6 @@ func AuthRoutes(server *echo.Group) {
 	authRoutes.POST(
 		"/register",
 		handlers.Register,
-		middlewares.ValidateJSONSchema("auth/register"))
+		middlewares.ValidateJSONSchema("auth/register"),
+	)
 }

@@ -16,7 +16,7 @@ import (
 // It returns an echo.MiddlewareFunc that can be used as middleware in an Echo web server.
 // If the schema is invalid or the request body is invalid JSON data, it returns an error response to the client.
 func ValidateJSONSchema(schemaPath string) echo.MiddlewareFunc {
-	loader := gojsonschema.NewReferenceLoader("file://src/data/schemas/" + schemaPath + ".schema.json")
+	loader := gojsonschema.NewReferenceLoader("file://src/data/schemas/" + schemaPath + "/schema.json")
 	schema, err := gojsonschema.NewSchema(loader)
 	utils.HandleError(err, "Failed to load schema", true)
 
