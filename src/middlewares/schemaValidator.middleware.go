@@ -40,7 +40,7 @@ func ValidateJSONSchema(schemaPath string) echo.MiddlewareFunc {
 				return utils.HandleResponse(
 					c,
 					http.StatusBadRequest,
-					"Invalid JSON data",
+					result.Errors()[0].Description()+" (at "+result.Errors()[0].Field()+")",
 					nil,
 				)
 			}
