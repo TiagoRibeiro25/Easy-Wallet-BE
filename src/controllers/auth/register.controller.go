@@ -4,26 +4,32 @@ import (
 	schemas "easy-wallet-be/src/data/schemas/auth/register"
 	"easy-wallet-be/src/models"
 	"easy-wallet-be/src/utils"
-	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
+// DB_ERROR is a constant that holds the error message for database errors (used multiple times)
+const DB_ERROR = "An error occured with our database"
 func Register(c echo.Context, bodyData schemas.BodyData) error {
-	fmt.Println(bodyData)
+	// Generate tokens
+	verifyUserToken, verifyUserTokenErr := utils.GenerateToken()
+	resetPasswordToken, resetPasswordTokenErr := utils.GenerateToken()
 
 	// Hash the password
-	hashedPassword, err := utils.HashPassword(bodyData.Password)
-	if err != nil {
-		utils.HandleResponse(
+	hashedPassword, hashedPasswordErr := utils.HashPassword(bodyData.Password)
+
+	// Check if there was an error while generating tokens or hashing the password
+	if verifyUserTokenErr != nil || resetPasswordTokenErr != nil || hashedPasswordErr != nil {
+		return utils.HandleResponse(
 			c,
 			http.StatusInternalServerError,
-			"Error hashing the password",
+			"An error occured while creating the user",
 			nil,
 		)
 	}
 
+	// Get the database instance
 	db := models.DB()
 
 	// Create the user and password in a single transaction
@@ -32,7 +38,7 @@ func Register(c echo.Context, bodyData schemas.BodyData) error {
 		return utils.HandleResponse(
 			c,
 			http.StatusInternalServerError,
-			"Error starting transaction",
+			DB_ERROR,
 			nil,
 		)
 	}
@@ -40,7 +46,7 @@ func Register(c echo.Context, bodyData schemas.BodyData) error {
 	user := models.User{
 		Email:           bodyData.Email,
 		DisplayName:     bodyData.DisplayName,
-		VerifyUserToken: "token", //TODO: Generate a random token
+		VerifyUserToken: verifyUserToken,
 	}
 
 	// Create both user and password in a single transaction
@@ -49,14 +55,14 @@ func Register(c echo.Context, bodyData schemas.BodyData) error {
 		return utils.HandleResponse(
 			c,
 			http.StatusInternalServerError,
-			"Error creating user",
+			DB_ERROR,
 			nil,
 		)
 	}
 
 	password := models.Password{
 		Password:           hashedPassword,
-		ResetPasswordToken: "token", //TODO: Generate a random token
+		ResetPasswordToken: resetPasswordToken,
 		UserID:             user.ID,
 	}
 
@@ -65,7 +71,7 @@ func Register(c echo.Context, bodyData schemas.BodyData) error {
 		return utils.HandleResponse(
 			c,
 			http.StatusInternalServerError,
-			"Error creating password",
+			DB_ERROR,
 			nil,
 		)
 	}
