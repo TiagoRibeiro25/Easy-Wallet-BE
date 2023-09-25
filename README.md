@@ -30,9 +30,29 @@
  <br />
 </div>
 
- <!-- <img src="images/phone.png" alt="Logo" height="200">
- <img src="images/tablet.png" alt="Logo" height="200">
- <img src="images/laptop.png" alt="Logo" height="200"> -->
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+       <li><a href="#prepare-for-production">Prepare for production</a></li>
+      </ul>
+    </li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -99,6 +119,37 @@ You also need to have access to the a:
 
    ```sh
    go run ./src
+   ```
+
+<!-- Production -->
+## Prepare for production
+
+1. Run the go mod tidy command to install the dependencies
+
+   ```sh
+   go mod tidy
+   ```
+
+2. Build the project
+
+* Using npm
+
+   ```sh
+   npm run build
+   ```
+
+* Using go build
+
+  ```sh
+  go build -o ./dist/easywalletapi ./src
+  ```
+
+3. Set the GO_ENV variable to production and the rest of the variables in the .env file
+
+4. Run the project
+
+   ```sh
+   ./dist/easywalletapi
    ```
 
 <!-- CONTRIBUTING -->
