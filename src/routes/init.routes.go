@@ -21,6 +21,7 @@ func Init(server *echo.Echo) {
 
 	UserRoutes(api)
 	AuthRoutes(api)
+	CronjobRoutes(api)
 
 	color.Green("Routes registered successfully")
 }
