@@ -19,6 +19,8 @@ go.work
 
 # Environment variables file
 .env
+.env.local
+.env.production
 
 # IDE files
 .idea/

@@ -13,3 +13,23 @@ services:
       - 5432:5432
     volumes:
       - ./db:/var/lib/postgresql/data
+
+  # api:
+  #   image: easywallet-api
+  #   restart: always
+  #   environment:
+  #     - GO_ENV=${GO_ENV}
+  #     - PORT=5000
+  #     - DB_HOST=localhost
+  #     - DB_PORT=5432
+  #     - DB_USERNAME=root
+  #     - DB_PASSWORD=2525
+  #     - DB_NAME=easywallet
+  #     - DB_ENABLE_SSL=false
+  #     - MAILJET_PUBLIC_KEY=${MAILJET_PUBLIC_KEY}
+  #     - MAILJET_SECRET_KEY=${MAILJET_SECRET_KEY}
+  #     - CRONJOB_AUTH_KEY=${CRONJOB_AUTH_KEY}
+  #   ports:
+  #     - 5000:5000
+  #   depends_on:
+  #     - db
