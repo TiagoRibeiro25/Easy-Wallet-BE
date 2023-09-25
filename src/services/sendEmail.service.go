@@ -2,7 +2,6 @@ package services
 
 import (
 	"easy-wallet-be/src/utils"
-	"fmt"
 	"log"
 
 	"github.com/mailjet/mailjet-apiv3-go/v4"
@@ -31,9 +30,8 @@ func SendEmail(email string, name string, subject string, htmlPart string) {
 		},
 	}
 	messages := mailjet.MessagesV31{Info: messagesInfo}
-	res, err := mailjetClient.SendMailV31(&messages)
+	_, err := mailjetClient.SendMailV31(&messages)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("Data: %+v\n", res)
 }
