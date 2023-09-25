@@ -11,15 +11,22 @@ import (
 )
 
 // Register is a handler function that receives a request context and registers a new user account.
-// It checks if there's already an user with the same email and returns an error if so.
-// Otherwise, it creates the account and returns nil.
+// It checks if there's already a user with the same email and returns an error if so.
+// Otherwise, it creates the account and returns a response.
 func Register(c echo.Context) error {
 	var bodyData schemas.BodyData
-	c.Bind(&bodyData)
+	if err := c.Bind(&bodyData); err != nil {
+		return utils.HandleResponse(
+			c,
+			http.StatusBadRequest,
+			"Invalid request data",
+			nil,
+		)
+	}
 
 	db := models.DB()
 
-	// Check if there's already an user with the same email
+	// Check if there's already a user with the same email
 	user := db.Where("email = ?", bodyData.Email).First(&models.User{})
 	if user.RowsAffected > 0 {
 		return utils.HandleResponse(
@@ -30,8 +37,21 @@ func Register(c echo.Context) error {
 		)
 	}
 
-	// Create the account
-	controllers.Register(c, bodyData)
+	// Call the controller to register the user
+	responseData, err := controllers.Register(c, bodyData)
+	if err != nil {
+		return utils.HandleResponse(
+			c,
+			http.StatusInternalServerError,
+			"Error while registering user",
+			nil,
+		)
+	}
 
-	return nil
+	return utils.HandleResponse(
+		c,
+		http.StatusCreated,
+		"Successfully registered user",
+		responseData,
+	)
 }
