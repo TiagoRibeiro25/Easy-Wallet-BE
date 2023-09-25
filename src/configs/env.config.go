@@ -61,7 +61,7 @@ func validateEnvs() {
 	// Check if each environment variable is set
 	for _, env := range envs {
 		if utils.GetEnv(env) == "" {
-			panic(fmt.Sprintf("Environment variable %s is not set", env))
+			utils.HandleError(fmt.Errorf("environment variable %s is not set", env), "", true)
 		}
 	}
 
