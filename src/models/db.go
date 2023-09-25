@@ -29,7 +29,7 @@ func SetupDatabase() (*gorm.DB, error) {
 	var ssl string
 
 	if dbConfig.EnableSSL {
-		ssl = "enable"
+		ssl = "require"
 	} else {
 		ssl = "disable"
 	}
