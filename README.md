@@ -99,15 +99,17 @@ You also need to have access to the a:
 
 2. Install NPM packages (in case you want to use nodemon)
 
-   ```sh
-   npm install
+3. Install Go packages
+
+    ```sh
+   go mod download
    ```
 
-3. Create a .env file, add the variables in the .env.example file and fill them with your own values.
+4. Create a .env file, add the variables in the .env.example file and fill them with your own values.
 
-4. Have a PostgreSQL database and Redis database running (or use the provided docker-compose file)
+5. Have a PostgreSQL database and Redis database running (or use the provided docker-compose file)
 
-5. Run the project
+6. Run the project
 
 * Using nodemon
 
@@ -127,7 +129,7 @@ You also need to have access to the a:
 1. Run the go mod tidy command to install the dependencies
 
    ```sh
-   go mod tidy
+   go mod download
    ```
 
 2. Build the project
