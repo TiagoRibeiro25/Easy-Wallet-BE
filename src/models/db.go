@@ -18,7 +18,7 @@ func init() {
 	utils.HandleError(err, "", true)
 
 	// Automatically create the database tables
-	setUpModels()
+	// setUpModels()
 }
 
 // The function `SetupDatabase` sets up a connection to a database using the provided configuration.
