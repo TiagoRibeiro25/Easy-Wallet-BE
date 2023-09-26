@@ -7,9 +7,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-//TODO: Add a cron job to delete the token after 15 minutes and create a new one
-//TODO: Add a cron job to delete the user after 24 hours if the user is not verified
-
 // CronjobRoutes sets up routes that are used by cronjobs.
 func CronjobRoutes(server *echo.Group) {
 	cronjobRoutes := server.Group("/cronjob")
