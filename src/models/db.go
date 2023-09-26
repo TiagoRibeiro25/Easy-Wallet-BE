@@ -52,8 +52,8 @@ func SetupDatabase() (*gorm.DB, error) {
 	return db, nil
 }
 
-// `setUpModels` sets up the database models by creating the necessary tables and relationships.
-// It also retrieves the first user and password from the database and preloads their associated models.
+// // `setUpModels` sets up the database models by creating the necessary tables and relationships.
+// // It also retrieves the first user and password from the database and preloads their associated models.
 // func setUpModels() {
 // 	color.Cyan("Setting up models...")
 

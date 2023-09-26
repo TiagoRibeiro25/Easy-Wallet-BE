@@ -66,9 +66,10 @@ func CreateSession(userID uint, rememberMe bool) (string, error) {
 	timeToExpire := time.Now().AddDate(0, 0, daysToExpire)
 
 	session := models.Session{
-		SessionID: sessionID,
-		UserID:    uint(userID),
-		ExpiresAt: timeToExpire,
+		SessionID:  sessionID,
+		RememberMe: rememberMe,
+		UserID:     uint(userID),
+		ExpiresAt:  timeToExpire,
 	}
 
 	if err := db.Create(&session).Error; err != nil {
