@@ -85,8 +85,6 @@ In order to run this project, you need to have installed
 You also need to have access to the a:
 
 * PostgreSQL database (or use the provided docker-compose file)
-* Redis database (or use the provided docker-compose file)
-* Cloudinary account
 * Mailjet account
 
 ### Installation
