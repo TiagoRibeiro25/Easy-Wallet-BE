@@ -20,6 +20,7 @@ type CookiesConfig struct {
 
 // GetCookiesConfig returns the default configuration for cookies.
 // If the app is running in a production environment, it updates the domain and secure fields accordingly.
+// TODO: Read from environment variables.
 func getCookiesConfig() CookiesConfig {
 	cookiesConfig := CookiesConfig{
 		Domain:   "localhost",
