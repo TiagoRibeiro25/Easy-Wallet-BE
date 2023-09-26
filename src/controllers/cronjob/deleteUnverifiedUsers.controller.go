@@ -4,13 +4,11 @@ import (
 	"easy-wallet-be/src/models"
 	"strconv"
 	"time"
-
-	"github.com/labstack/echo/v4"
 )
 
 // DeleteUnverifiedUsers deletes users that have not been verified and were created more than 24 hours ago.
 // It returns a string indicating the number of unverified users deleted or an error if the operation fails.
-func DeleteUnverifiedUsers(c echo.Context) (string, error) {
+func DeleteUnverifiedUsers() (string, error) {
 	db := models.DB()
 
 	// Find users created more than 24 hours ago and not verified

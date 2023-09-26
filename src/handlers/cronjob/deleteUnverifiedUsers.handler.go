@@ -13,7 +13,7 @@ import (
 // If the deletion is successful, it returns a success message with HTTP status code 200.
 // If there is an error during the deletion process, it returns an error message with HTTP status code 500.
 func DeleteUnverifiedUsers(c echo.Context) error {
-	responseMessage, err := controllers.DeleteUnverifiedUsers(c)
+	responseMessage, err := controllers.DeleteUnverifiedUsers()
 	if err != nil {
 		return utils.HandleResponse(
 			c,
