@@ -8,6 +8,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// DeleteUnverifiedUsers is a handler function that deletes unverified users from the database.
+// It takes an echo.Context object as input and returns an error.
+// If the deletion is successful, it returns a success message with HTTP status code 200.
+// If there is an error during the deletion process, it returns an error message with HTTP status code 500.
 func DeleteUnverifiedUsers(c echo.Context) error {
 	responseMessage, err := controllers.DeleteUnverifiedUsers(c)
 	if err != nil {
