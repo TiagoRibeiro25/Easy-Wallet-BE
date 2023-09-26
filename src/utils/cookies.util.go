@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/fatih/color"
@@ -20,10 +21,9 @@ type CookiesConfig struct {
 
 // GetCookiesConfig returns the default configuration for cookies.
 // If the app is running in a production environment, it updates the domain and secure fields accordingly.
-// TODO: Read from environment variables.
 func getCookiesConfig() CookiesConfig {
 	cookiesConfig := CookiesConfig{
-		Domain:   "localhost",
+		Domain:   os.Getenv("DOMAIN"),
 		MaxAge:   0,
 		Secure:   false,
 		HttpOnly: true,
@@ -31,7 +31,6 @@ func getCookiesConfig() CookiesConfig {
 	}
 
 	if IsProduction() {
-		cookiesConfig.Domain = "easy-wallet-be.onrender.com"
 		cookiesConfig.Secure = true
 	}
 
