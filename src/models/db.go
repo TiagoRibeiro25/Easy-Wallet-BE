@@ -18,7 +18,7 @@ func init() {
 	utils.HandleError(err, "", true)
 
 	// Automatically create the database tables
-	// setUpModels()
+	setUpModels()
 }
 
 // The function `SetupDatabase` sets up a connection to a database using the provided configuration.
@@ -52,24 +52,24 @@ func SetupDatabase() (*gorm.DB, error) {
 	return db, nil
 }
 
-// // `setUpModels` sets up the database models by creating the necessary tables and relationships.
-// // It also retrieves the first user and password from the database and preloads their associated models.
-// func setUpModels() {
-// 	color.Cyan("Setting up models...")
+// `setUpModels` sets up the database models by creating the necessary tables and relationships.
+// It also retrieves the first user and password from the database and preloads their associated models.
+func setUpModels() {
+	color.Cyan("Setting up models...")
 
-// 	// AutoMigrate the models to create the necessary tables
-// 	err := db.AutoMigrate(
-// 		&User{},
-// 		&Password{},
-// 		&Session{},
-// 		&Income{},
-// 		&Expense{},
-// 		&Category{},
-// 	).Error
-// 	utils.HandleError(err, "Error migrating models", true)
+	// AutoMigrate the models to create the necessary tables
+	err := db.AutoMigrate(
+		&User{},
+		&Password{},
+		&Session{},
+		&Income{},
+		&Expense{},
+		&Category{},
+	).Error
+	utils.HandleError(err, "Error migrating models", true)
 
-// 	color.Green("Successfully set up models")
-// }
+	color.Green("Successfully set up models")
+}
 
 // `DB` returns the shared database connection
 func DB() *gorm.DB {
