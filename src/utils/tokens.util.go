@@ -5,11 +5,13 @@ import (
 	"encoding/base64"
 )
 
-// GenerateToken generates a random token of specified length or default length of 32.
+const DEFAULT_TOKEN_LENGTH = 32
+
+// GenerateToken generates a random token of specified length or default length.
 // It returns the generated token as a string and an error if any.
 func GenerateToken(length ...int) (string, error) {
-	// Set default length to 32 if no argument is passed
-	tokenLength := 32
+	// Set default length if no argument is passed
+	tokenLength := DEFAULT_TOKEN_LENGTH
 	if len(length) > 0 {
 		tokenLength = length[0]
 	}
