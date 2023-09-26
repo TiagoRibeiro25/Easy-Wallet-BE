@@ -3,6 +3,7 @@ package handlers
 import (
 	controllers "easy-wallet-be/src/controllers/auth"
 	schemas "easy-wallet-be/src/data/schemas/auth/login"
+	"easy-wallet-be/src/services"
 	"easy-wallet-be/src/utils"
 	"net/http"
 
@@ -43,6 +44,24 @@ func Login(c echo.Context) error {
 			c,
 			http.StatusUnauthorized,
 			"Invalid credentials",
+			nil,
+		)
+	}
+
+	// Check if the user is verified
+	if !(user.UserVerified) {
+		// Send the email to verify the user
+		services.SendEmail(
+			bodyData.Email,
+			user.DisplayName,
+			"Welcome to Easy Wallet",
+			"<h4>Verify User Token</h4><p>"+user.VerifyUserToken+"</p>",
+		)
+
+		return utils.HandleResponse(
+			c,
+			http.StatusUnauthorized,
+			"Please verify your account. An email has been sent to your email address",
 			nil,
 		)
 	}
