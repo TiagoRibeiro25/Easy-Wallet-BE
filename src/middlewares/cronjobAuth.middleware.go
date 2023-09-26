@@ -17,7 +17,7 @@ func CronjobAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		expectedAuthKey := utils.GetEnv("CRONJOB_AUTH_KEY")
 
 		if authHeader != expectedAuthKey {
-			utils.HandleResponse(
+			return utils.HandleResponse(
 				c,
 				http.StatusUnauthorized,
 				"Incorrect authorization key",
