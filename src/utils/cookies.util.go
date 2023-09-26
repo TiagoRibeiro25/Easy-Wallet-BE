@@ -1,9 +1,11 @@
 package utils
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
+	"github.com/fatih/color"
 	"github.com/labstack/echo/v4"
 )
 
@@ -13,17 +15,18 @@ type CookiesConfig struct {
 	MaxAge   int    // MaxAge represents the maximum age of the cookie.
 	Secure   bool   // Secure represents whether the cookie is secure or not.
 	HttpOnly bool   // HttpOnly represents whether the cookie is accessible via HTTP only or not.
+	Path     string // Path represents the path for the cookie.
 }
 
 // GetCookiesConfig returns the default configuration for cookies.
 // If the app is running in a production environment, it updates the domain and secure fields accordingly.
 func getCookiesConfig() CookiesConfig {
-
 	cookiesConfig := CookiesConfig{
 		Domain:   "localhost",
 		MaxAge:   0,
 		Secure:   false,
 		HttpOnly: true,
+		Path:     "/",
 	}
 
 	if IsProduction() {
@@ -50,6 +53,7 @@ func WriteCookie(context echo.Context, name string, value string, expires time.T
 	cookie.MaxAge = cookiesOptions.MaxAge
 	cookie.Secure = cookiesOptions.Secure
 	cookie.HttpOnly = cookiesOptions.HttpOnly
+	cookie.Path = cookiesOptions.Path
 
 	cookie.Name = name
 	cookie.Value = value
@@ -78,4 +82,17 @@ func GetCookieExpiration(rememberMe ...bool) time.Time {
 	}
 
 	return time.Now().Add(24 * time.Hour) // 1 day
+}
+
+// ReadAllCookies reads all cookies from the provided echo.Context and prints their name and value to the console.
+// It takes in an echo.Context as a parameter.
+// Used for debugging purposes.
+func ReadAllCookies(context echo.Context) {
+	for _, cookie := range context.Cookies() {
+		color.New(color.FgHiBlue).Print("COOKIE: ")
+		color.New(color.FgHiWhite).Print(cookie.Name)
+		fmt.Print(" = ")
+		color.New(color.FgHiYellow).Print(cookie.Value)
+		fmt.Println()
+	}
 }
