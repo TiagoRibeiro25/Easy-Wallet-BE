@@ -3,7 +3,6 @@ package handlers
 import (
 	controllers "easy-wallet-be/src/controllers/auth"
 	schemas "easy-wallet-be/src/data/schemas/auth/register"
-	"easy-wallet-be/src/models"
 	"easy-wallet-be/src/utils"
 	"net/http"
 
@@ -24,11 +23,8 @@ func Register(c echo.Context) error {
 		)
 	}
 
-	db := models.DB()
-
 	// Check if there's already a user with the same email
-	user := db.Where("email = ?", bodyData.Email).First(&models.User{})
-	if user.RowsAffected > 0 {
+	if controllers.DoesUserExist(bodyData.Email) {
 		return utils.HandleResponse(
 			c,
 			http.StatusConflict,
