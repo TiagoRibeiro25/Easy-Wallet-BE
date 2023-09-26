@@ -8,6 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+//TODO: Maybe use a different database to store sessions instead of the main database like Redis or something.
+
 // ValidateSessionMiddleware is a middleware function that checks if the session ID stored in the cookie is valid.
 // It takes in the next echo.HandlerFunc as a parameter and returns an echo.HandlerFunc.
 // If the session ID is not found or is invalid, it returns an unauthorized response.
