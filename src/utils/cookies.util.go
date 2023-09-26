@@ -62,6 +62,27 @@ func WriteCookie(context echo.Context, name string, value string, expires time.T
 	context.SetCookie(cookie)
 }
 
+// DeleteCookie deletes a cookie with the given name from the context's response.
+// It takes an echo.Context and the name of the cookie as input parameters.
+// The function retrieves the cookie configuration options, creates a new cookie with the given name,
+// sets its properties to delete the cookie, and adds it to the context's response.
+func DeleteCookie(context echo.Context, name string) {
+	cookiesOptions := getCookiesConfig()
+
+	cookie := new(http.Cookie)
+
+	cookie.Domain = cookiesOptions.Domain
+	cookie.MaxAge = -1 // This will delete the cookie
+	cookie.Secure = cookiesOptions.Secure
+	cookie.HttpOnly = cookiesOptions.HttpOnly
+	cookie.Path = cookiesOptions.Path
+	cookie.Expires = time.Now().Add(-1 * time.Hour) // This will delete the cookie
+
+	cookie.Name = name
+
+	context.SetCookie(cookie)
+}
+
 // ReadCookie reads a cookie with the given name from the provided echo.Context.
 // It returns the cookie value as a string and an error if the cookie is not found.
 func ReadCookie(context echo.Context, name string) (string, error) {
