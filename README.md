@@ -105,7 +105,7 @@ You also need to have access to the a:
 
 4. Create a .env file, add the variables in the .env.example file and fill them with your own values.
 
-5. Have a PostgreSQL database and Redis database running (or use the provided docker-compose file)
+5. Have a PostgreSQL database running (or use the provided docker-compose file)
 
 6. Run the project
 
