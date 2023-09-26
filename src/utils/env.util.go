@@ -11,3 +11,7 @@ func GetEnv(key string) string {
 func SetEnv(key string, value string) {
 	os.Setenv(key, value)
 }
+
+func IsProduction() bool {
+	return GetEnv("GO_ENV") == "production" || GetEnv("GO_ENV") == "prod"
+}

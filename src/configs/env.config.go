@@ -13,7 +13,7 @@ import (
 
 func init() {
 	// Load envs from .env file
-	if environment := utils.GetEnv("GO_ENV"); environment != "production" && environment != "prod" {
+	if !utils.IsProduction() {
 		loadEnvs()
 	}
 
