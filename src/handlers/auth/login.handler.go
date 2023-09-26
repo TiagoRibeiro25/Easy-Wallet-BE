@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"easy-wallet-be/src/configs"
 	controllers "easy-wallet-be/src/controllers/auth"
 	schemas "easy-wallet-be/src/data/schemas/auth/login"
 	"easy-wallet-be/src/services"
@@ -91,7 +92,7 @@ func Login(c echo.Context) error {
 	// Create a session cookie
 	utils.WriteCookie(
 		c,
-		"easywallet-session-id",
+		configs.GetCookiesConfig().AuthCookieName,
 		sessionID,
 		utils.GetCookieExpiration(bodyData.RememberMe),
 	)
