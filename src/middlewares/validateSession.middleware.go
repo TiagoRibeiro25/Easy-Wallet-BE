@@ -18,7 +18,7 @@ func ValidateSessionMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		sessionID, err := utils.ReadCookie(c, "easywallet-session-id")
 
-		if err != nil || !controllers.ValidateSession(sessionID) {
+		if err != nil || !controllers.ValidateSession(c, sessionID) {
 			return utils.HandleResponse(
 				c,
 				http.StatusUnauthorized,
