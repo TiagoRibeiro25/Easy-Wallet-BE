@@ -30,3 +30,22 @@ func GenerateToken(length ...int) (string, error) {
 
 	return token, nil
 }
+
+// ValidateToken validates a token by attempting to decode it from base64 to bytes using Standard Encoding.
+// If decoding with Standard Encoding fails, it tries with URLEncoding.
+// Returns true if the length of the decoded bytes is not zero, false otherwise.
+func ValidateToken(token string) bool {
+	// Attempt to decode the token from base64 to bytes using Standard Encoding
+	tokenBytes, err := base64.StdEncoding.DecodeString(token)
+
+	if err != nil {
+		// If decoding with Standard Encoding fails, try with URLEncoding
+		tokenBytes, err = base64.URLEncoding.DecodeString(token)
+		if err != nil {
+			return false
+		}
+	}
+
+	// Check if the length of the decoded bytes is zero
+	return len(tokenBytes) != 0
+}
