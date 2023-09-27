@@ -11,8 +11,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-const SELECT_QUERY = "users.id, users.email, users.display_name, users.user_verified, users.verify_user_token ,users.currency, users.created_at, passwords.password"
-
 // Login handles the login request for the user. It receives the user's email, password and rememberMe, fetches the user by email,
 // compares the password, checks if the user is verified, creates a session, and returns a response with the user's
 // information and a session cookie. If the user is not found, the password is incorrect, or the user is not verified,
