@@ -32,6 +32,9 @@ func ValidateSessionMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 			return handleUnauthorized(c)
 		}
 
+		// Add the user ID to the context
+		c.Set("userID", session.UserID)
+
 		// Check if the session is expired
 		if session.ExpiresAt.Before(time.Now()) {
 			controllers.DeleteSession(sessionID) // Delete the session from the database
