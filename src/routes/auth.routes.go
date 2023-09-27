@@ -24,4 +24,7 @@ func AuthRoutes(server *echo.Group) {
 		handlers.Login,
 		middlewares.ValidateJSONSchema("auth/login"),
 	)
+
+	// Logout a user
+	authRoutes.DELETE("/logout", handlers.Logout)
 }
