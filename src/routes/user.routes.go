@@ -11,9 +11,9 @@ import (
 func UserRoutes(server *echo.Group) {
 	userRoutes := server.Group("/v1/user")
 
-	// Get logged in user (not finished yet)
-	userRoutes.GET("", handlers.GetUser, middlewares.ValidateSessionMiddleware)
-
 	// Verify user
 	userRoutes.PATCH("/verify/:token", handlers.VerifyUser)
+
+	// Get logged in user
+	userRoutes.GET("/me", handlers.GetUser, middlewares.ValidateSessionMiddleware)
 }
