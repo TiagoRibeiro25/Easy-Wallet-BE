@@ -19,5 +19,4 @@ func CronjobRoutes(server *echo.Group) {
 		"/delete-unverified-users",
 		handlers.DeleteUnverifiedUsers,
 	)
-
 }
