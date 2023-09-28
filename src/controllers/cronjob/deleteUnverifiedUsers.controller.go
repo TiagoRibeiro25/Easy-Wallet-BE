@@ -12,28 +12,71 @@ func DeleteUnverifiedUsers() (string, error) {
 	db := models.DB()
 
 	// Find users created more than 24 hours ago and not verified
-	var usersIdsToDelete []uint
 	thresholdTime := time.Now().Add(-24 * time.Hour)
 
 	// Use a single query to fetch user IDs that meet the deletion criteria
-	if err := db.Table("users").
-		Where("user_verified = ? AND created_at <= ?", false, thresholdTime).
-		Pluck("id", &usersIdsToDelete).Error; err != nil {
+	usersToDeleteQuery := db.Table("users").
+		Select("id").
+		Where("user_verified = ? AND created_at <= ?", false, thresholdTime)
+
+	if err := usersToDeleteQuery.Error; err != nil {
 		return "", err
 	}
 
-	// Delete the unverified users with IDs in usersIdsToDelete from the "users" table in a single query
-	if err := db.Table("users").Unscoped().
-		Where("id IN (?)", usersIdsToDelete).
-		Delete(&models.User{}).Error; err != nil {
+	var usersToDelete []struct {
+		ID uint
+	}
+	if err := usersToDeleteQuery.Find(&usersToDelete).Error; err != nil {
 		return "", err
 	}
 
-	nUsersDeleted := len(usersIdsToDelete)
-
-	if nUsersDeleted == 0 {
+	if len(usersToDelete) == 0 {
 		return "No unverified users to delete", nil
 	}
 
-	return "Successfully deleted " + strconv.Itoa(nUsersDeleted) + " unverified users", nil
+	// Extract the IDs of users to delete
+	var userIDs []uint
+	for _, user := range usersToDelete {
+		userIDs = append(userIDs, user.ID)
+	}
+
+	// Use a single transaction to delete users and their associated records
+	tx := db.Begin()
+	if err := tx.Table("users").
+		Unscoped().
+		Where("id IN (?)", userIDs).
+		Delete(&models.User{}).
+		Error; err != nil {
+		tx.Rollback()
+		return "", err
+	}
+
+	// Define associated tables to delete records from
+	associatedTables := []struct {
+		Name  string
+		Model interface{}
+	}{
+		{"passwords", &models.Password{}},
+		{"incomes", &models.Income{}},
+		{"expenses", &models.Expense{}},
+		{"categories", &models.Category{}},
+	}
+
+	// Delete records from associated tables
+	for _, table := range associatedTables {
+		if err := tx.Table(table.Name).
+			Unscoped().
+			Where("user_id IN (?)", userIDs).
+			Delete(table.Model).Error; err != nil {
+			tx.Rollback()
+			return "", err
+		}
+	}
+
+	// Commit the transaction
+	if err := tx.Commit().Error; err != nil {
+		return "", err
+	}
+
+	return "Successfully deleted " + strconv.Itoa(len(userIDs)) + " unverified users", nil
 }
