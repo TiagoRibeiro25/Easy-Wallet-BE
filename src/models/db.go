@@ -17,6 +17,11 @@ func init() {
 	db, err = SetupDatabase()
 	utils.HandleError(err, "", true)
 
+	// In case we want to reset the database (drop all tables)
+	if false {
+		resetDB()
+	}
+
 	// Automatically create the database tables
 	setUpModels()
 }
@@ -69,6 +74,23 @@ func setUpModels() {
 	utils.HandleError(err, "Error migrating models", true)
 
 	color.Green("Successfully set up models")
+}
+
+func resetDB() {
+	color.Cyan("Resetting database...")
+
+	// Drop the tables
+	err := db.DropTableIfExists(
+		&User{},
+		&Password{},
+		&Session{},
+		&Income{},
+		&Expense{},
+		&Category{},
+	).Error
+	utils.HandleError(err, "Error dropping tables", true)
+
+	color.Green("Successfully reset database")
 }
 
 // `DB` returns the shared database connection
