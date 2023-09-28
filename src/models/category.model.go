@@ -13,7 +13,7 @@ type Category struct {
 	IconID int    `gorm:"not null"`
 	UserID uint   `gorm:"index;not null"`
 
-	Expenses []Expense `gorm:"foreignkey:CategoryID"`
+	Expenses []Expense `gorm:"foreignkey:CategoryID;constraint:OnDelete:CASCADE;"`
 }
 
 // TODO: Maybe only add the default categories when the user gets verified (instead of when they register)...?
