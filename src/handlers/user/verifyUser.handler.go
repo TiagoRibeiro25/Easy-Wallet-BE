@@ -36,6 +36,8 @@ func VerifyUser(c echo.Context) error {
 		)
 	}
 
+	// TODO: Maybe login the user after verification is successful automatically (so that the user doesn't have to login again after verification)
+
 	return utils.HandleResponse(
 		c,
 		http.StatusOK,
