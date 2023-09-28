@@ -10,9 +10,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// Register is a handler function that receives a request context and registers a new user account.
-// It checks if there's already a user with the same email and returns an error if so.
-// Otherwise, it creates the account and returns a response.
+// Register is a handler function that registers a new user.
+// It receives a context and a request body with the user data.
+// It checks if there's already a user with the same email, generates tokens, hashes the password,
+// calls the controller to register the user, sends a verification email and returns a response with the registered user data.
 func Register(c echo.Context) error {
 	var bodyData schemas.BodyData
 	c.Bind(&bodyData)
@@ -27,8 +28,25 @@ func Register(c echo.Context) error {
 		)
 	}
 
+	// Generate tokens
+	verifyUserToken, verifyUserTokenErr := utils.GenerateToken()
+	resetPasswordToken, resetPasswordTokenErr := utils.GenerateToken()
+
+	// Hash password
+	hashedPassword, hashedPasswordErr := utils.HashPassword(bodyData.Password)
+
+	// Check if there was an error while generating tokens or hashing the password
+	if verifyUserTokenErr != nil || resetPasswordTokenErr != nil || hashedPasswordErr != nil {
+		return utils.HandleResponse(
+			c,
+			http.StatusInternalServerError,
+			"Error while registering user",
+			nil,
+		)
+	}
+
 	// Call the controller to register the user
-	responseData, verifyUserToken, err := controllers.Register(c, bodyData)
+	responseData, err := controllers.Register(c, bodyData, verifyUserToken, resetPasswordToken, hashedPassword)
 	if err != nil {
 		return utils.HandleResponse(
 			c,
