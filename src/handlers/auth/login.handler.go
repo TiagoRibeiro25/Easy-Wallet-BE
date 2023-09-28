@@ -46,7 +46,7 @@ func Login(c echo.Context) error {
 		services.SendEmail(
 			bodyData.Email,
 			user.DisplayName,
-			"Welcome to Easy Wallet",
+			"Easy Wallet - Verify User",
 			"<h4>Verify User Token</h4><p>"+user.VerifyUserToken+"</p>",
 		)
 

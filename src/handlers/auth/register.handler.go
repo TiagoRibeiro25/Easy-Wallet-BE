@@ -42,7 +42,7 @@ func Register(c echo.Context) error {
 	services.SendEmail(
 		bodyData.Email,
 		bodyData.DisplayName,
-		"Welcome to Easy Wallet",
+		"Easy Wallet - Verify User",
 		"<h4>Verify User Token</h4><p>"+verifyUserToken+"</p>",
 	)
 
