@@ -10,9 +10,6 @@ import (
 // The main function initializes and starts a server, loading environment variables and validating
 // required variables before starting.
 func main() {
-	// Clear terminal
-	fmt.Print("\033[H\033[2J")
-
 	// Connect to the database
 	db := models.DB()
 
