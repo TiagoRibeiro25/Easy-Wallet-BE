@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"encoding/json"
 	"io"
 	"net/http"
 	"strings"
@@ -34,6 +35,16 @@ func ValidateJSONSchema(schemaPath string) echo.MiddlewareFunc {
 			}
 			requestBody := string(bodyBytes)
 
+			// Verify if the request body is valid JSON data
+			if !isValidJSON(requestBody) {
+				return utils.HandleResponse(
+					c,
+					http.StatusBadRequest,
+					"Invalid JSON data in the request body",
+					nil,
+				)
+			}
+
 			documentLoader := gojsonschema.NewStringLoader(requestBody)
 			result, err := schema.Validate(documentLoader)
 			if err != nil || !result.Valid() {
@@ -51,4 +62,10 @@ func ValidateJSONSchema(schemaPath string) echo.MiddlewareFunc {
 			return next(c)
 		}
 	}
+}
+
+// isValidJSON checks if a given string represents valid JSON data.
+func isValidJSON(s string) bool {
+	var js map[string]interface{}
+	return json.Unmarshal([]byte(s), &js) == nil
 }
