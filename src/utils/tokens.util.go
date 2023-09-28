@@ -20,8 +20,7 @@ func GenerateToken(length ...int) (string, error) {
 	tokenBytes := make([]byte, tokenLength)
 
 	// Read random bytes from the crypto/rand package
-	_, err := rand.Read(tokenBytes)
-	if err != nil {
+	if _, err := rand.Read(tokenBytes); err != nil {
 		return "", err
 	}
 

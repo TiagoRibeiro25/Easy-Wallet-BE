@@ -35,8 +35,8 @@ func SendEmail(email string, name string, subject string, htmlPart string) {
 		},
 	}
 	messages := mailjet.MessagesV31{Info: messagesInfo}
-	_, err := mailjetClient.SendMailV31(&messages)
-	if err != nil {
+	if _, err := mailjetClient.SendMailV31(&messages); err != nil {
 		utils.HandleError(err, "Error sending email", false)
 	}
+
 }

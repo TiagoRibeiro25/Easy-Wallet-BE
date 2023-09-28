@@ -27,8 +27,7 @@ func VerifyUser(c echo.Context) error {
 		)
 	}
 
-	err := controllers.VerifyUserByToken(token)
-	if err != nil {
+	if err := controllers.VerifyUserByToken(token); err != nil {
 		return utils.HandleResponse(
 			c,
 			http.StatusNotFound,

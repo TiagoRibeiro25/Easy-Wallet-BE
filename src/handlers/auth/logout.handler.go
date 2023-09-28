@@ -16,9 +16,7 @@ func Logout(c echo.Context) error {
 	}
 
 	// Delete the session from the database
-	err = controllers.DeleteSession(sessionID)
-	if err != nil {
-		// If the session is not found, it means that the user is already logged out
+	if err := controllers.DeleteSession(sessionID); err != nil {
 		return sendResponse(c)
 	}
 

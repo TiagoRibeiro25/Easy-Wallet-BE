@@ -87,7 +87,6 @@ func DeleteCookie(context echo.Context, name string) {
 // It returns the cookie value as a string and an error if the cookie is not found.
 func ReadCookie(context echo.Context, name string) (string, error) {
 	cookie, err := context.Cookie(name)
-
 	if err != nil {
 		return "", err
 	}
