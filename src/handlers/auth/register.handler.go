@@ -14,14 +14,7 @@ import (
 // Otherwise, it creates the account and returns a response.
 func Register(c echo.Context) error {
 	var bodyData schemas.BodyData
-	if err := c.Bind(&bodyData); err != nil {
-		return utils.HandleResponse(
-			c,
-			http.StatusBadRequest,
-			"Invalid request data",
-			nil,
-		)
-	}
+	c.Bind(&bodyData)
 
 	// Check if there's already a user with the same email
 	if controllers.DoesUserExist(bodyData.Email) {

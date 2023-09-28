@@ -17,14 +17,7 @@ import (
 // it returns an error response.
 func Login(c echo.Context) error {
 	var bodyData schemas.BodyData
-	if err := c.Bind(&bodyData); err != nil {
-		utils.HandleResponse(
-			c,
-			http.StatusBadRequest,
-			"Invalid request data",
-			nil,
-		)
-	}
+	c.Bind(&bodyData)
 
 	// Find the user by email
 	user, err := controllers.FetchUserByEmail(c, bodyData.Email)
