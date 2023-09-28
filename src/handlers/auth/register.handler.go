@@ -3,6 +3,7 @@ package handlers
 import (
 	controllers "easy-wallet-be/src/controllers/auth"
 	schemas "easy-wallet-be/src/data/schemas/auth/register"
+	"easy-wallet-be/src/services"
 	"easy-wallet-be/src/utils"
 	"net/http"
 
@@ -27,7 +28,7 @@ func Register(c echo.Context) error {
 	}
 
 	// Call the controller to register the user
-	responseData, err := controllers.Register(c, bodyData)
+	responseData, verifyUserToken, err := controllers.Register(c, bodyData)
 	if err != nil {
 		return utils.HandleResponse(
 			c,
@@ -36,6 +37,14 @@ func Register(c echo.Context) error {
 			nil,
 		)
 	}
+
+	// Send the verification email
+	services.SendEmail(
+		bodyData.Email,
+		bodyData.DisplayName,
+		"Welcome to Easy Wallet",
+		"<h4>Verify User Token</h4><p>"+verifyUserToken+"</p>",
+	)
 
 	return utils.HandleResponse(
 		c,

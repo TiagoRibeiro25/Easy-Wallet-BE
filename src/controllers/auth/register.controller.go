@@ -3,7 +3,6 @@ package controllers
 import (
 	schemas "easy-wallet-be/src/data/schemas/auth/register"
 	"easy-wallet-be/src/models"
-	"easy-wallet-be/src/services"
 	"easy-wallet-be/src/utils"
 	"errors"
 
@@ -13,10 +12,14 @@ import (
 // DB_ERROR is a constant that holds the error message for database errors (used multiple times)
 const DB_ERROR = "an error occured with our database"
 
-// Register creates a new user and password in the database, generates tokens, hashes the password, and sends a verification email.
-// It receives an echo context and a BodyData struct containing the email, display name, and password of the user to be created.
-// It returns a ResponseData struct containing the user's ID, email, display name, currency, user verification status, and creation date, and an error.
-func Register(c echo.Context, bodyData schemas.BodyData) (schemas.ResponseData, error) {
+// Register creates a new user and password in the database, and returns a response data, a verification token and an error.
+// It takes an echo context and a BodyData struct as input parameters.
+// The function generates two tokens, one for user verification and another for password reset, and hashes the password.
+// It then creates the user and password in a single transaction in the database.
+// If any error occurs while generating tokens or hashing the password, the function returns an error.
+// If any error occurs while creating the user or password in the database, the function rolls back the transaction and returns an error.
+// If all operations are successful, the function commits the transaction and returns a response data and a verification token.
+func Register(c echo.Context, bodyData schemas.BodyData) (schemas.ResponseData, string, error) {
 	var responseData schemas.ResponseData
 	var err error
 
@@ -30,7 +33,7 @@ func Register(c echo.Context, bodyData schemas.BodyData) (schemas.ResponseData, 
 	// Check if there was an error while generating tokens or hashing the password
 	if verifyUserTokenErr != nil || resetPasswordTokenErr != nil || hashedPasswordErr != nil {
 		err = errors.New("an error occured while creating the user")
-		return responseData, err
+		return responseData, "", err
 	}
 
 	// Get the database instance
@@ -40,7 +43,7 @@ func Register(c echo.Context, bodyData schemas.BodyData) (schemas.ResponseData, 
 	tx := db.Begin()
 	if tx.Error != nil {
 		err = errors.New(DB_ERROR)
-		return responseData, err
+		return responseData, "", err
 	}
 
 	user := models.User{
@@ -52,7 +55,7 @@ func Register(c echo.Context, bodyData schemas.BodyData) (schemas.ResponseData, 
 	if err := tx.Create(&user).Error; err != nil {
 		tx.Rollback()
 		err = errors.New(DB_ERROR)
-		return responseData, err
+		return responseData, "", err
 	}
 
 	password := models.Password{
@@ -64,18 +67,10 @@ func Register(c echo.Context, bodyData schemas.BodyData) (schemas.ResponseData, 
 	if err := tx.Create(&password).Error; err != nil {
 		tx.Rollback()
 		err = errors.New(DB_ERROR)
-		return responseData, err
+		return responseData, "", err
 	}
 
 	tx.Commit() // Commit the transaction if all operations are successful
-
-	// Send the verification email
-	services.SendEmail(
-		bodyData.Email,
-		bodyData.DisplayName,
-		"Welcome to Easy Wallet",
-		"<h4>Verify User Token</h4><p>"+verifyUserToken+"</p>",
-	)
 
 	responseData = schemas.ResponseData{
 		ID:           user.ID,
@@ -86,7 +81,7 @@ func Register(c echo.Context, bodyData schemas.BodyData) (schemas.ResponseData, 
 		CreatedAt:    user.CreatedAt.String(),
 	}
 
-	return responseData, nil
+	return responseData, verifyUserToken, nil
 }
 
 // DoesUserExist checks if a user with the given email already exists in the database.
