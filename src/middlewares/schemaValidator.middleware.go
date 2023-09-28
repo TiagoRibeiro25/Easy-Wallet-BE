@@ -12,10 +12,12 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-// ValidateJSONSchema is a middleware function that validates the JSON schema of the request body against a given schema file.
-// It takes a schemaPath string as input, which is the path to the schema file relative to the "src/data/schemas" directory.
-// It returns an echo.MiddlewareFunc that can be used as middleware in an Echo web server.
-// If the schema is invalid or the request body is invalid JSON data, it returns an error response to the client.
+// ValidateJSONSchema returns an echo middleware function that validates the request body against a JSON schema.
+// It takes a schemaPath string parameter that specifies the path to the JSON schema file.
+// The function reads the request body and converts it to a string, then verifies if it is valid JSON data.
+// If the request body is valid JSON data, it validates it against the specified JSON schema.
+// If the validation fails, it returns an error response with a description of the validation error.
+// If the validation succeeds, it resets the request body so that it can be read again by subsequent handlers.
 func ValidateJSONSchema(schemaPath string) echo.MiddlewareFunc {
 	loader := gojsonschema.NewReferenceLoader("file://src/data/schemas/" + schemaPath + "/schema.json")
 	schema, err := gojsonschema.NewSchema(loader)
