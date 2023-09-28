@@ -11,20 +11,27 @@ import (
 func AuthRoutes(server *echo.Group) {
 	authRoutes := server.Group("/auth")
 
-	// Register a new user
+	// Register new user
 	authRoutes.POST(
 		"/register",
 		handlers.Register,
 		middlewares.ValidateJSONSchema("auth/register"),
 	)
 
-	// Login a user
+	// Login user
 	authRoutes.POST(
 		"/login",
 		handlers.Login,
 		middlewares.ValidateJSONSchema("auth/login"),
 	)
 
-	// Logout a user
+	// Logout user
 	authRoutes.DELETE("/logout", handlers.Logout)
+
+	// Forgot password (send reset password email)
+	authRoutes.POST(
+		"/forgot-password",
+		handlers.ForgotPassword,
+		middlewares.ValidateJSONSchema("auth/forgotPassword"),
+	)
 }
