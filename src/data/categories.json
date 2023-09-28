@@ -1,0 +1,12 @@
+[
+	{ "name": "Entertainment", "icon_id": 1 },
+	{ "name": "Transportation", "icon_id": 2 },
+	{ "name": "Personal Care", "icon_id": 3 },
+	{ "name": "Gifts", "icon_id": 4 },
+	{ "name": "Bills", "icon_id": 5 },
+	{ "name": "Food", "icon_id": 6 },
+	{ "name": "Travel", "icon_id": 7 },
+	{ "name": "Clothing", "icon_id": 8 },
+	{ "name": "Housing", "icon_id": 9 },
+	{ "name": "Education", "icon_id": 10 }
+]

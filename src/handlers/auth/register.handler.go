@@ -3,6 +3,7 @@ package handlers
 import (
 	controllers "easy-wallet-be/src/controllers/auth"
 	schemas "easy-wallet-be/src/data/schemas/auth/register"
+	"easy-wallet-be/src/models"
 	"easy-wallet-be/src/services"
 	"easy-wallet-be/src/utils"
 	"net/http"
@@ -37,23 +38,18 @@ func Register(c echo.Context) error {
 
 	// Check if there was an error while generating tokens or hashing the password
 	if verifyUserTokenErr != nil || resetPasswordTokenErr != nil || hashedPasswordErr != nil {
-		return utils.HandleResponse(
-			c,
-			http.StatusInternalServerError,
-			"Error while registering user",
-			nil,
-		)
+		return handleServerError(c)
 	}
 
 	// Call the controller to register the user
 	responseData, err := controllers.Register(c, bodyData, verifyUserToken, resetPasswordToken, hashedPassword)
 	if err != nil {
-		return utils.HandleResponse(
-			c,
-			http.StatusInternalServerError,
-			"Error while registering user",
-			nil,
-		)
+		return handleServerError(c)
+	}
+
+	// Create the default categories for the user
+	if err := models.AddDefaultCategories(responseData.ID); err != nil {
+		return handleServerError(c)
 	}
 
 	// Send the verification email
@@ -69,5 +65,14 @@ func Register(c echo.Context) error {
 		http.StatusCreated,
 		"Successfully registered user",
 		responseData,
+	)
+}
+
+func handleServerError(context echo.Context) error {
+	return utils.HandleResponse(
+		context,
+		http.StatusInternalServerError,
+		"Error while registering user",
+		nil,
 	)
 }
