@@ -1,13 +1,18 @@
 package models
 
-import "github.com/jinzhu/gorm"
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+
+	"github.com/jinzhu/gorm"
+)
 
 type Category struct {
 	gorm.Model
-	Name      string `gorm:"type:varchar(100);not null"`
-	IconID    int    `gorm:"unique_index;not null"`
-	TextColor string `gorm:"type:varchar(100);not null"`
-	UserID    uint   `gorm:"unique_index;not null"`
+	Name   string `gorm:"type:varchar(100);not null"`
+	IconID int    `gorm:"not null"`
+	UserID uint   `gorm:"index;not null"`
 
 	Expenses []Expense `gorm:"foreignkey:CategoryID"`
 }

@@ -7,5 +7,5 @@ type Income struct {
 	Month  int  `gorm:"not null"`
 	Year   int  `gorm:"not null"`
 	Amount uint `gorm:"not null"`
-	UserID uint `gorm:"unique_index;not null"`
+	UserID uint `gorm:"index;not null"`
 }
