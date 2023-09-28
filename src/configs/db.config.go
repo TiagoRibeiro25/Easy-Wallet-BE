@@ -1,6 +1,6 @@
 package configs
 
-import "easy-wallet-be/src/utils"
+import "os"
 
 type DatabaseConfig struct {
 	Host      string
@@ -15,11 +15,11 @@ type DatabaseConfig struct {
 func GetDatabaseConfig() DatabaseConfig {
 
 	return DatabaseConfig{
-		Host:      utils.GetEnv("DB_HOST"),
-		Port:      utils.GetEnv("DB_PORT"),
-		Username:  utils.GetEnv("DB_USERNAME"),
-		Password:  utils.GetEnv("DB_PASSWORD"),
-		Database:  utils.GetEnv("DB_NAME"),
-		EnableSSL: utils.GetEnv("DB_ENABLE_SSL") == "true",
+		Host:      os.Getenv("DB_HOST"),
+		Port:      os.Getenv("DB_PORT"),
+		Username:  os.Getenv("DB_USERNAME"),
+		Password:  os.Getenv("DB_PASSWORD"),
+		Database:  os.Getenv("DB_NAME"),
+		EnableSSL: os.Getenv("DB_ENABLE_SSL") == "true",
 	}
 }

@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"easy-wallet-be/src/models"
-	"easy-wallet-be/src/utils"
 )
 
 // The main function initializes and starts a server, loading environment variables and validating
@@ -18,7 +18,7 @@ func main() {
 
 	// Instantiate the server
 	server := Server()
-	server.Logger.Fatal(server.Start(fmt.Sprintf(":%s", utils.GetEnv("PORT"))))
+	server.Logger.Fatal(server.Start(fmt.Sprintf(":%s", os.Getenv("PORT"))))
 
 	// Defer closing the database connection and server
 	defer func() {

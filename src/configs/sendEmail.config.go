@@ -1,6 +1,6 @@
 package configs
 
-import "easy-wallet-be/src/utils"
+import "os"
 
 type SendEmailData struct {
 	APIPublicKey string
@@ -11,9 +11,9 @@ type SendEmailData struct {
 
 func GetSendEmailData() SendEmailData {
 	return SendEmailData{
-		APIPublicKey: utils.GetEnv("MAILJET_PUBLIC_KEY"),
-		APISecretKey: utils.GetEnv("MAILJET_SECRET_KEY"),
-		FromEmail:    utils.GetEnv("MAILJET_FROM_EMAIL"),
+		APIPublicKey: os.Getenv("MAILJET_PUBLIC_KEY"),
+		APISecretKey: os.Getenv("MAILJET_SECRET_KEY"),
+		FromEmail:    os.Getenv("MAILJET_FROM_EMAIL"),
 		FromName:     "Easy Wallet Team",
 	}
 }

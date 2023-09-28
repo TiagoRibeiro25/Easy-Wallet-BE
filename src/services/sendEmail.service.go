@@ -7,6 +7,9 @@ import (
 	"github.com/mailjet/mailjet-apiv3-go/v4"
 )
 
+// SendEmail sends an email to the specified recipient with the given subject and HTML content.
+// It uses the Mailjet API to send the email, and retrieves the necessary API keys
+// and sender information from the configuration file.
 func SendEmail(email string, name string, subject string, htmlPart string) {
 	sendEmailData := configs.GetSendEmailData()
 

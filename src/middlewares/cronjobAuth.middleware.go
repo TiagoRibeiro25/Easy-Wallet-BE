@@ -3,6 +3,7 @@ package middlewares
 import (
 	"easy-wallet-be/src/utils"
 	"net/http"
+	"os"
 
 	"github.com/labstack/echo/v4"
 )
@@ -14,7 +15,7 @@ import (
 func CronjobAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		authHeader := c.Request().Header.Get("Authorization")
-		expectedAuthKey := utils.GetEnv("CRONJOB_AUTH_KEY")
+		expectedAuthKey := os.Getenv("CRONJOB_AUTH_KEY")
 
 		if authHeader != expectedAuthKey {
 			return utils.HandleResponse(
