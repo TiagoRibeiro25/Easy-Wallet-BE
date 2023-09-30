@@ -31,7 +31,7 @@ func VerifyUser(c echo.Context) error {
 		return utils.HandleResponse(
 			c,
 			http.StatusNotFound,
-			"User not found",
+			err.Error(),
 			nil,
 		)
 	}
