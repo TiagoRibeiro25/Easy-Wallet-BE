@@ -19,4 +19,10 @@ func CronjobRoutes(server *echo.Group) {
 		"/delete-unverified-users",
 		handlers.DeleteUnverifiedUsers,
 	)
+
+	// Delete expired sessions
+	cronjobRoutes.DELETE(
+		"/delete-expired-sessions",
+		handlers.DeleteExpiredSessions,
+	)
 }
