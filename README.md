@@ -20,7 +20,7 @@
     <br />
     <a href="#"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="https://easywallet2023.netlify.app/">View Demo</a>
+    <a href="https://easy-wallet-fe.onrender.com">View Demo</a>
     ·
     <a href="https://github.com/TiagoRibeiro25/Easy-Wallet-BE/issues">Report Bug</a>
     ·
