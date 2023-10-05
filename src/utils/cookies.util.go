@@ -12,12 +12,12 @@ import (
 
 // CookiesConfig represents the configuration for cookies.
 type CookiesConfig struct {
-	Domain   string // Domain represents the domain name for the cookie.
-	SameSite int    // SameSite represents the SameSite attribute for the cookie.
-	MaxAge   int    // MaxAge represents the maximum age of the cookie.
-	Secure   bool   // Secure represents whether the cookie is secure or not.
-	HttpOnly bool   // HttpOnly represents whether the cookie is accessible via HTTP only or not.
-	Path     string // Path represents the path for the cookie.
+	Domain   string        // Domain represents the domain name for the cookie.
+	SameSite http.SameSite // SameSite represents the SameSite attribute for the cookie.
+	MaxAge   int           // MaxAge represents the maximum age of the cookie.
+	Secure   bool          // Secure represents whether the cookie is secure or not.
+	HttpOnly bool          // HttpOnly represents whether the cookie is accessible via HTTP only or not.
+	Path     string        // Path represents the path for the cookie.
 }
 
 // GetCookiesConfig returns the default configuration for cookies.
@@ -33,7 +33,7 @@ func getCookiesConfig() CookiesConfig {
 	}
 
 	if IsProduction() {
-		cookiesConfig.SameSite = 4 // 4 = SameSiteStrictMode
+		cookiesConfig.SameSite = 4 // 4 = SameSiteNoneMode
 		cookiesConfig.Secure = true
 	}
 
@@ -53,6 +53,7 @@ func WriteCookie(context echo.Context, name string, value string, expires time.T
 	cookie := new(http.Cookie)
 
 	cookie.Domain = cookiesOptions.Domain
+	cookie.SameSite = cookiesOptions.SameSite
 	cookie.MaxAge = cookiesOptions.MaxAge
 	cookie.Secure = cookiesOptions.Secure
 	cookie.HttpOnly = cookiesOptions.HttpOnly
