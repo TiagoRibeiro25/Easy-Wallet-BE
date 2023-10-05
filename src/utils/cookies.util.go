@@ -13,6 +13,7 @@ import (
 // CookiesConfig represents the configuration for cookies.
 type CookiesConfig struct {
 	Domain   string // Domain represents the domain name for the cookie.
+	SameSite int    // SameSite represents the SameSite attribute for the cookie.
 	MaxAge   int    // MaxAge represents the maximum age of the cookie.
 	Secure   bool   // Secure represents whether the cookie is secure or not.
 	HttpOnly bool   // HttpOnly represents whether the cookie is accessible via HTTP only or not.
@@ -24,6 +25,7 @@ type CookiesConfig struct {
 func getCookiesConfig() CookiesConfig {
 	cookiesConfig := CookiesConfig{
 		Domain:   os.Getenv("DOMAIN"),
+		SameSite: 2, // 2 = SameSiteLaxMode
 		MaxAge:   0,
 		Secure:   false,
 		HttpOnly: true,
@@ -31,6 +33,7 @@ func getCookiesConfig() CookiesConfig {
 	}
 
 	if IsProduction() {
+		cookiesConfig.SameSite = 4 // 4 = SameSiteStrictMode
 		cookiesConfig.Secure = true
 	}
 
