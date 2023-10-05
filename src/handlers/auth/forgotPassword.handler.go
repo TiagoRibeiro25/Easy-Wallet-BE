@@ -3,6 +3,7 @@ package handlers
 import (
 	controllers "easy-wallet-be/src/controllers/auth"
 	schemas "easy-wallet-be/src/data/schemas/auth/forgotPassword"
+	"easy-wallet-be/src/data/templates"
 	"easy-wallet-be/src/services"
 	"easy-wallet-be/src/utils"
 	"net/http"
@@ -43,7 +44,7 @@ func ForgotPassword(c echo.Context) error {
 		user.Email,
 		user.DisplayName,
 		"Easy Wallet - Reset password token",
-		"<h4>Update password token</h4><p>"+user.ResetPasswordToken+"</p>",
+		templates.ForgotPassword(token),
 	)
 
 	return utils.HandleResponse(

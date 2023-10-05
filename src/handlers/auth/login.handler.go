@@ -4,6 +4,7 @@ import (
 	"easy-wallet-be/src/configs"
 	controllers "easy-wallet-be/src/controllers/auth"
 	schemas "easy-wallet-be/src/data/schemas/auth/login"
+	"easy-wallet-be/src/data/templates"
 	"easy-wallet-be/src/services"
 	"easy-wallet-be/src/utils"
 	"net/http"
@@ -47,7 +48,7 @@ func Login(c echo.Context) error {
 			bodyData.Email,
 			user.DisplayName,
 			"Easy Wallet - Verify User",
-			"<h4>Verify User Token</h4><p>"+user.VerifyUserToken+"</p>",
+			templates.VerifyUser(user.VerifyUserToken),
 		)
 
 		return utils.HandleResponse(
