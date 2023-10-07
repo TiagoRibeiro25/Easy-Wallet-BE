@@ -41,5 +41,4 @@ func AuthRoutes(server *echo.Group) {
 		handlers.ResetPassword,
 		middlewares.ValidateJSONSchema("auth/resetPassword"),
 	)
-
 }
