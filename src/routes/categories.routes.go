@@ -23,4 +23,7 @@ func CategoriesRoutes(server *echo.Group) {
 		handlers.AddCategory,
 		middlewares.ValidateJSONSchema("categories/addCategory"),
 	)
+
+	// Delete a category
+	categoriesRoutes.DELETE("/:id", handlers.DeleteCategory)
 }
