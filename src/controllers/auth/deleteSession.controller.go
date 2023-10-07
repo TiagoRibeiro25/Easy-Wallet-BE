@@ -10,7 +10,7 @@ import (
 func DeleteSession(sessionID string) error {
 	db := models.DB()
 
-	result := db.Where("session_id = ?", sessionID).Unscoped().Delete(&models.Session{})
+	result := db.Where("session_id = ?", sessionID).Delete(&models.Session{})
 	if result.Error != nil {
 		return result.Error
 	}
