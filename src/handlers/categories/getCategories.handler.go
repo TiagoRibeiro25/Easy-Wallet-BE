@@ -8,7 +8,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// GetCategories returns the categories of the user.
+// GetCategories retrieves all categories for a given user ID.
+// It expects a valid userID in the context, added by the ValidateSessionMiddleware.
+// It returns a JSON response with the categories data and a success message.
+// If the userID is invalid or the user is not found, it returns an error message with a 404 status code.
 func GetCategories(c echo.Context) error {
 	// Get the userID from the context (added by the ValidateSessionMiddleware)
 	userID := utils.ConvertVarToString(c.Get("userID"))
