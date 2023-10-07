@@ -14,5 +14,13 @@ func CategoriesRoutes(server *echo.Group) {
 	// Apply session validation middleware to all routes
 	categoriesRoutes.Use(middlewares.ValidateSessionMiddleware)
 
+	// Get all user categories
 	categoriesRoutes.GET("", handlers.GetCategories)
+
+	// Add a new category
+	categoriesRoutes.POST(
+		"",
+		handlers.AddCategory,
+		middlewares.ValidateJSONSchema("categories/addCategory"),
+	)
 }

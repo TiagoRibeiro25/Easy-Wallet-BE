@@ -19,6 +19,7 @@ func Init(server *echo.Echo) {
 	// Home route
 	api.GET("", handlers.Home)
 
+	// Register all routes
 	UserRoutes(api)
 	AuthRoutes(api)
 	CategoriesRoutes(api)
