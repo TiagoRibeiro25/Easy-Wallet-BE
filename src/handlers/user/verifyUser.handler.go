@@ -2,6 +2,7 @@ package handlers
 
 import (
 	controllers "easy-wallet-be/src/controllers/user"
+	"easy-wallet-be/src/models"
 	"easy-wallet-be/src/utils"
 	"net/http"
 
@@ -27,7 +28,9 @@ func VerifyUser(c echo.Context) error {
 		)
 	}
 
-	if err := controllers.VerifyUserByToken(token); err != nil {
+	// Verify the user
+	userID, err := controllers.VerifyUserByToken(token)
+	if err != nil {
 		return utils.HandleResponse(
 			c,
 			http.StatusNotFound,
@@ -36,7 +39,15 @@ func VerifyUser(c echo.Context) error {
 		)
 	}
 
-	// TODO: Maybe login the user after verification is successful automatically (so that the user doesn't have to login again after verification)
+	// Create the default categories for the user
+	if err := models.AddDefaultCategories(userID); err != nil {
+		return utils.HandleResponse(
+			c,
+			http.StatusInternalServerError,
+			"Something went wrong",
+			nil,
+		)
+	}
 
 	return utils.HandleResponse(
 		c,

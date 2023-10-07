@@ -4,7 +4,6 @@ import (
 	controllers "easy-wallet-be/src/controllers/auth"
 	schemas "easy-wallet-be/src/data/schemas/auth/register"
 	"easy-wallet-be/src/data/templates"
-	"easy-wallet-be/src/models"
 	"easy-wallet-be/src/services"
 	"easy-wallet-be/src/utils"
 	"net/http"
@@ -45,11 +44,6 @@ func Register(c echo.Context) error {
 	// Call the controller to register the user
 	responseData, err := controllers.Register(c, bodyData, verifyUserToken, resetPasswordToken, hashedPassword)
 	if err != nil {
-		return handleServerError(c)
-	}
-
-	// Create the default categories for the user
-	if err := models.AddDefaultCategories(responseData.ID); err != nil {
 		return handleServerError(c)
 	}
 

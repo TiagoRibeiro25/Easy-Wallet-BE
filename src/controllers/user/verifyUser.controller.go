@@ -6,14 +6,14 @@ import (
 )
 
 // VerifyUserByToken updates the user_verified field to true for the user with the given verify_user_token.
-// It returns an error if the update operation fails, if no user was updated, or if the user is already verified.
-func VerifyUserByToken(token string) error {
+// It returns the userID if the update operation succeeds, an error if it fails, if no user was updated, or if the user is already verified.
+func VerifyUserByToken(token string) (uint, error) {
 	db := models.DB()
 
 	// Start a database transaction
 	tx := db.Begin()
 	if tx.Error != nil {
-		return tx.Error
+		return 0, tx.Error
 	}
 
 	// Check if the user is already verified within the transaction
@@ -21,13 +21,13 @@ func VerifyUserByToken(token string) error {
 	if err := tx.Where("verify_user_token = ?", token).First(&existingUser).Error; err != nil {
 		// Roll back the transaction and return an error
 		tx.Rollback()
-		return err
+		return 0, err
 	}
 
 	if existingUser.UserVerified {
 		// Roll back the transaction and return an error
 		tx.Rollback()
-		return errors.New("user is already verified")
+		return 0, errors.New("user is already verified")
 	}
 
 	// Update the user_verified field
@@ -38,16 +38,20 @@ func VerifyUserByToken(token string) error {
 	if result.Error != nil {
 		// Roll back the transaction and return an error
 		tx.Rollback()
-		return result.Error
+		return 0, result.Error
 	}
 
 	// Check the number of affected rows to see if any user was updated
 	if result.RowsAffected == 0 {
 		// Roll back the transaction and return an error
 		tx.Rollback()
-		return errors.New("no user was updated")
+		return 0, errors.New("no user was updated")
 	}
 
 	// Commit the transaction if everything was successful
-	return tx.Commit().Error
+	if err := tx.Commit().Error; err != nil {
+		return 0, err
+	}
+
+	return existingUser.ID, nil
 }
