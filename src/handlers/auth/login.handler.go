@@ -3,6 +3,7 @@ package handlers
 import (
 	"easy-wallet-be/src/configs"
 	controllers "easy-wallet-be/src/controllers/auth"
+	userControllers "easy-wallet-be/src/controllers/user"
 	schemas "easy-wallet-be/src/data/schemas/auth/login"
 	"easy-wallet-be/src/data/templates"
 	"easy-wallet-be/src/services"
@@ -21,7 +22,7 @@ func Login(c echo.Context) error {
 	c.Bind(&bodyData)
 
 	// Find the user by email
-	user, err := controllers.FetchUserByEmail(c, bodyData.Email)
+	user, err := userControllers.FetchUserByEmail(c, bodyData.Email)
 	if err != nil {
 		return utils.HandleResponse(
 			c,
