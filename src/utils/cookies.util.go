@@ -76,6 +76,7 @@ func DeleteCookie(context echo.Context, name string) {
 	cookie := new(http.Cookie)
 
 	cookie.Domain = cookiesOptions.Domain
+	cookie.SameSite = cookiesOptions.SameSite
 	cookie.MaxAge = -1 // This will delete the cookie
 	cookie.Secure = cookiesOptions.Secure
 	cookie.HttpOnly = cookiesOptions.HttpOnly

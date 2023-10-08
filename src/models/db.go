@@ -17,7 +17,7 @@ func init() {
 	db, err = SetupDatabase()
 	utils.HandleError(err, "", true)
 
-	// In case we want to reset the database (drop all tables)
+	// In case we want to reset the database (change to true and run the server once to apply the reset)
 	if false {
 		resetDB()
 	}
@@ -31,12 +31,10 @@ func SetupDatabase() (*gorm.DB, error) {
 	color.Cyan("Connecting to the database...")
 
 	dbConfig := configs.GetDatabaseConfig()
-	var ssl string
+	ssl := "disable"
 
 	if dbConfig.EnableSSL {
 		ssl = "require"
-	} else {
-		ssl = "disable"
 	}
 
 	dsn := "postgres://" +
