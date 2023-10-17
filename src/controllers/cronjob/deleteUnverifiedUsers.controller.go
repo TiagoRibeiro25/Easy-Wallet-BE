@@ -42,7 +42,6 @@ func DeleteUnverifiedUsers() (string, error) {
 
 	// Use a single transaction to delete users and their associated records
 	tx := db.Begin()
-	//TODO: Unscoped
 	if err := tx.Table("users").
 		Where("id IN (?)", userIDs).
 		Delete(&models.User{}).
@@ -65,7 +64,6 @@ func DeleteUnverifiedUsers() (string, error) {
 	// Delete records from associated tables
 	for _, table := range associatedTables {
 		if err := tx.Table(table.Name).
-			//TODO: Unscoped
 			Where("user_id IN (?)", userIDs).
 			Delete(table.Model).Error; err != nil {
 			tx.Rollback()

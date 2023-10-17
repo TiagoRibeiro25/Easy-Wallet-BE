@@ -16,7 +16,6 @@ type Category struct {
 	Expenses []Expense `gorm:"foreignkey:CategoryID;constraint:OnDelete:CASCADE;"`
 }
 
-// TODO: Maybe only add the default categories when the user gets verified (instead of when they register)...?
 
 // AddDefaultCategories adds default categories to the database for a given user ID.
 // It reads the categories from a JSON file and creates them in a single transaction.
