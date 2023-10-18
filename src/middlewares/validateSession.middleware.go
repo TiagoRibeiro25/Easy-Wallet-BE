@@ -12,6 +12,9 @@ import (
 
 // TODO: Maybe use a different database to store sessions instead of the main database like Redis or something.
 
+const TIME_REMANING_TO_REFRESH = 30                // 30 minutes
+const TIME_REMANING_TO_REFRESH_REMEMBER_ME = 10080 // 7 days
+
 // ValidateSessionMiddleware is a middleware function that checks if the user's session is valid and not expired.
 // It takes an echo.HandlerFunc as input and returns an echo.HandlerFunc.
 // If the session is invalid or expired, it returns an error response with status code 401 (Unauthorized).
@@ -41,8 +44,13 @@ func ValidateSessionMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 			return handleUnauthorized(c)
 		}
 
-		// If the session expires in less than 30 minutes, delete the session and create a new one
-		if session.ExpiresAt.Before(time.Now().Add(30 * time.Minute)) {
+		refreshTime := TIME_REMANING_TO_REFRESH
+		if session.RememberMe {
+			refreshTime = TIME_REMANING_TO_REFRESH_REMEMBER_ME
+		}
+
+		// If the session expires in less than "refreshTime" minutes, delete the session and create a new one
+		if session.ExpiresAt.Before(time.Now().Add(time.Duration(refreshTime) * time.Minute)) {
 			controllers.DeleteSession(sessionID)
 			newSessionID, err := controllers.CreateSession(session.UserID, session.RememberMe)
 			if err != nil {
