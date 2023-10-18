@@ -29,7 +29,7 @@ func DeleteExpiredSessions() (int, error) {
 
 	// Use a single transaction to delete sessions and their associated records
 	tx := db.Begin()
-	if err := tx.Where("id IN (?)", sessionIDs).Delete(&models.Session{}).Error; err != nil {
+	if err := tx.Where("id IN (?)", sessionIDs).Unscoped().Delete(&models.Session{}).Error; err != nil {
 		tx.Rollback()
 		return 0, err
 	}
