@@ -44,6 +44,7 @@ func DeleteUnverifiedUsers() (string, error) {
 	tx := db.Begin()
 	if err := tx.Table("users").
 		Where("id IN (?)", userIDs).
+		Unscoped().
 		Delete(&models.User{}).
 		Error; err != nil {
 		tx.Rollback()
@@ -65,6 +66,7 @@ func DeleteUnverifiedUsers() (string, error) {
 	for _, table := range associatedTables {
 		if err := tx.Table(table.Name).
 			Where("user_id IN (?)", userIDs).
+			Unscoped().
 			Delete(table.Model).Error; err != nil {
 			tx.Rollback()
 			return "", err

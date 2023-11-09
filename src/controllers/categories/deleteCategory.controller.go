@@ -8,7 +8,7 @@ import "easy-wallet-be/src/models"
 func DeleteCategory(id uint) error {
 	db := models.DB()
 
-	err := db.Table("categories").Where("id = ?", id).Delete(&models.Category{}).Error
+	err := db.Table("categories").Where("id = ?", id).Unscoped().Delete(&models.Category{}).Error
 
 	return err
 }
