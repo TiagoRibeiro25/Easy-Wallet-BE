@@ -5,9 +5,9 @@ import (
 )
 
 // AddCategory adds a new category to the database for the given user.
-// It takes the user ID, new category name and new category icon ID as input parameters.
-// It returns an error if there is any issue while creating the new category.
-func AddCategory(userID uint, newCategoryName string, newCategoryIconID uint) error {
+// It takes the user ID, new category name, and new category icon ID as input parameters.
+// It returns the newly added category and an error if there is any issue while creating the new category.
+func AddCategory(userID uint, newCategoryName string, newCategoryIconID uint) (models.Category, error) {
 	db := models.DB()
 
 	// Create new category
@@ -18,8 +18,8 @@ func AddCategory(userID uint, newCategoryName string, newCategoryIconID uint) er
 	}
 
 	if err := db.Create(&newCategory).Error; err != nil {
-		return err
+		return models.Category{}, err
 	}
 
-	return nil
+	return newCategory, nil
 }

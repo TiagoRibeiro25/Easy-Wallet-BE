@@ -32,7 +32,8 @@ func AddCategory(c echo.Context) error {
 		)
 	}
 
-	if err := controllers.AddCategory(userIDuint, bodyData.Name, bodyData.IconID); err != nil {
+	newCategory, err := controllers.AddCategory(userIDuint, bodyData.Name, bodyData.IconID)
+	if err != nil {
 		return utils.HandleResponse(
 			c,
 			http.StatusInternalServerError,
@@ -45,6 +46,12 @@ func AddCategory(c echo.Context) error {
 		c,
 		http.StatusCreated,
 		"Category added successfully",
-		nil,
+		schemas.ResponseData{
+			ID:        newCategory.ID,
+			Name:      newCategory.Name,
+			IconID:    newCategory.IconID,
+			CreatedAt: newCategory.CreatedAt.String(),
+			UpdatedAt: newCategory.UpdatedAt.String(),
+		},
 	)
 }
