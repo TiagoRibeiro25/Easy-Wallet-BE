@@ -17,6 +17,8 @@ func ForgotPassword(c echo.Context) error {
 	var bodyData schemas.BodyData
 	c.Bind(&bodyData)
 
+	// TODO: Move this code to the end of the resetPassword handler instead
+
 	// Generate the reset password token to replace the old one
 	token, err := utils.GenerateToken()
 	if err != nil {
