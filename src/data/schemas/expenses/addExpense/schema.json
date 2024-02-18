@@ -1,0 +1,29 @@
+{
+	"type": "object",
+	"properties": {
+		"name": {
+			"type": "string",
+			"minLength": 4,
+			"maxLength": 20
+		},
+		"category_id": {
+			"type": "integer",
+			"minimum": 1
+		},
+		"cost": {
+			"type": "integer",
+			"minimum": 0
+		},
+		"date": {
+			"type": "string",
+			"format": "date-time"
+		},
+		"description": {
+			"type": "string",
+			"minLength": 4,
+			"maxLength": 1000
+		}
+	},
+	"required": ["name", "category_id", "cost", "date"],
+	"additionalProperties": false
+}
