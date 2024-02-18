@@ -33,7 +33,8 @@ func UpdateUserPasswordToken(email string, newToken string) (UpdateUserPasswordT
 		Select("users.id, users.email, users.display_name, passwords.reset_password_token").
 		Joins("JOIN passwords ON users.id = passwords.user_id").
 		Where("users.email = ?", email).
-		First(&user).Error; err != nil {
+		First(&user).
+		Error; err != nil {
 		tx.Rollback() // Rollback the transaction in case of an error
 		return UpdateUserPasswordTokenResult{}, errors.New("user not found")
 	}
@@ -41,12 +42,11 @@ func UpdateUserPasswordToken(email string, newToken string) (UpdateUserPasswordT
 	// Update the reset_password_token
 	user.ResetPasswordToken = newToken
 
-	err := tx.Table("passwords").
-		Where("user_id = ?", user.ID).
-		Update("reset_password_token", newToken).Error
-	if err != nil {
+	if err := tx.Table("passwords").
+		Where("user_id = ?", user.ID).Update("reset_password_token", newToken).
+		Error; err != nil {
 		tx.Rollback() // Rollback the transaction in case of an error
-		return user, errors.New("error updating user password token")
+		return UpdateUserPasswordTokenResult{}, errors.New("error updating user password token")
 	}
 
 	// Commit the transaction if both queries are successful

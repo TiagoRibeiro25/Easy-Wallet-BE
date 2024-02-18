@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// TODO: Maybe use a different database to store sessions instead of the main database like Redis or something.
+// TODO: Maybe use a different database to store sessions instead of the main database (some noSQL database like Redis)
 
 const TIME_REMANING_TO_REFRESH = 30                // 30 minutes
 const TIME_REMANING_TO_REFRESH_REMEMBER_ME = 10080 // 7 days

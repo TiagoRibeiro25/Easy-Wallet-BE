@@ -58,7 +58,7 @@ func Register(c echo.Context) error {
 	return utils.HandleResponse(
 		c,
 		http.StatusCreated,
-		"Successfully registered user",
+		"Successfully registered user! An email has been sent to your email address with a link to verify your account.",
 		responseData,
 	)
 }
