@@ -48,5 +48,14 @@ func AddExpense(c echo.Context) error {
 		return utils.HandleResponse(c, http.StatusInternalServerError, "Something went wrong", nil)
 	}
 
-	return utils.HandleResponse(c, http.StatusCreated, "Expense added successfully", newExpense)
+	return utils.HandleResponse(c, http.StatusCreated, "Expense added successfully", schemas.ResponseData{
+		ID:          newExpense.ID,
+		Name:        newExpense.Name,
+		Cost:        newExpense.Cost,
+		Date:        newExpense.Date,
+		Description: newExpense.Description,
+		CategoryID:  newExpense.CategoryID,
+		CreatedAt:   newExpense.CreatedAt.Format("2006-01-02 15:04:05"),
+		UpdatedAt:   newExpense.UpdatedAt.Format("2006-01-02 15:04:05"),
+	})
 }
