@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"strconv"
 	"time"
 )
 
@@ -17,4 +18,23 @@ func IsDateValid(date string) bool {
 func IsDateInFuture(date string) bool {
 	parsedDate, _ := time.Parse("2006-01-02", date)
 	return parsedDate.After(time.Now())
+}
+
+// ArePageAndLimitFromQueryValid checks if the page and limit values from the query are valid.
+// It takes in two strings, page and limit, and returns the parsed integers for page and limit,
+// along with a boolean indicating if the values are valid.
+// If either page or limit is not a valid integer or is less than 1, it returns false.
+// Otherwise, it returns the parsed integers and true.
+func ArePageAndLimitFromQueryValid(page, limit string) (int, int, bool) {
+	pageInt, err := strconv.Atoi(page)
+	if err != nil || pageInt < 1 {
+		return 0, 0, false
+	}
+
+	limitInt, err := strconv.Atoi(limit)
+	if err != nil || limitInt < 1 {
+		return 0, 0, false
+	}
+
+	return pageInt, limitInt, true
 }

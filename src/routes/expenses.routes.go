@@ -14,6 +14,10 @@ func ExpensesRoutes(server *echo.Group) {
 	// Apply session validation middleware to all routes
 	expensesRoutes.Use(middlewares.ValidateSessionMiddleware)
 
+	// Get expenses
+	expensesRoutes.GET("", handlers.GetExpenses)
+
+	// Add a new expense
 	expensesRoutes.POST(
 		"",
 		handlers.AddExpense,
