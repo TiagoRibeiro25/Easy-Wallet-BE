@@ -2,6 +2,7 @@ package handlers
 
 import (
 	controllers "easy-wallet-be/src/controllers/expenses"
+	schemas "easy-wallet-be/src/data/schemas/expenses/getExpenses"
 	"easy-wallet-be/src/utils"
 	"net/http"
 
@@ -33,5 +34,20 @@ func GetExpenses(c echo.Context) error {
 		return utils.HandleResponse(c, http.StatusInternalServerError, "Something went wrong", nil)
 	}
 
-	return utils.HandleResponse(c, http.StatusOK, "Expenses retrieved successfully", expenses)
+	// Convert expenses to response data
+	var responseExpenses []schemas.ResponseData
+	for _, expense := range expenses {
+		responseExpenses = append(responseExpenses, schemas.ResponseData{
+			ID:          expense.ID,
+			Name:        expense.Name,
+			Cost:        expense.Cost,
+			Date:        expense.Date,
+			Description: expense.Description,
+			CategoryID:  expense.CategoryID,
+			CreatedAt:   expense.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt:   expense.UpdatedAt.Format("2006-01-02 15:04:05"),
+		})
+	}
+
+	return utils.HandleResponse(c, http.StatusOK, "Expenses retrieved successfully", responseExpenses)
 }
