@@ -32,7 +32,7 @@ func ArePageAndLimitFromQueryValid(page, limit string) (int, int, bool) {
 	}
 
 	limitInt, err := strconv.Atoi(limit)
-	if err != nil || limitInt < 1 {
+	if err != nil || limitInt < 1 || limitInt > 20 {
 		return 0, 0, false
 	}
 
