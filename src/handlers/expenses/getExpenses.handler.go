@@ -9,6 +9,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// GetExpenses retrieves expenses based on the provided date, page, and limit.
+// It validates the date, page, and limit parameters and checks if the user ID is valid.
+// If any validation fails or an error occurs during the retrieval process, an appropriate error response is returned.
+// Otherwise, the expenses are converted to response data and returned with a success response.
 func GetExpenses(c echo.Context) error {
 	date := c.QueryParam("date")
 	page := c.QueryParam("page")
