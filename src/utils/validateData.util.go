@@ -6,7 +6,7 @@ import (
 
 // Validates if the given string represents a valid date in the format "YYYY-MM-DD".
 // It returns true if the date is valid, otherwise it returns false.
-func ValidateDate(date string) bool {
+func IsDateValid(date string) bool {
 	_, err := time.Parse("2006-01-02", date)
 	return err == nil
 }

@@ -26,7 +26,7 @@ func AddExpense(c echo.Context) error {
 	}
 
 	// Validate the date
-	if !utils.ValidateDate(bodyData.Date) || utils.IsDateInFuture(bodyData.Date) {
+	if !utils.IsDateValid(bodyData.Date) || utils.IsDateInFuture(bodyData.Date) {
 		return utils.HandleResponse(c, http.StatusBadRequest, "Invalid date", nil)
 	}
 
